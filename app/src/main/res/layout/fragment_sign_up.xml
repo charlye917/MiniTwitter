@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAzul"
+    tools:context=".Login.presenter.view.SignUpFragment">
+
+    <ImageView
+        android:id="@+id/imgLogoSingUp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_logo_minitwitter_white"
+        app:layout_constraintBottom_toTopOf="@+id/etUserNameSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <EditText
+        android:id="@+id/etUserNameSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_username"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHighlight="@color/colorAzulDark"
+        android:textColorHint="@color/colorAzulDark"
+        android:textColorLink="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/etEmailSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/imgLogoSingUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/imgLogoSingUp"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoSingUp" />
+
+    <EditText
+        android:id="@+id/etEmailSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/white"
+        android:textColorHighlight="@color/colorAzulDark"
+        android:textColorHint="@color/colorAzulDark"
+        android:textColorLink="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/etPassSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/etUserNameSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/etUserNameSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/etUserNameSignUp" />
+
+    <EditText
+        android:id="@+id/etPassSignUp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword"
+        android:textColor="@android:color/white"
+        android:textColorHighlight="@color/colorAzulDark"
+        android:textColorHint="@color/colorAzulDark"
+        android:textColorLink="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnSingUp"
+        app:layout_constraintEnd_toEndOf="@+id/etEmailSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/etEmailSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/etEmailSignUp" />
+
+    <Button
+        android:id="@+id/btnSingUp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/white"
+        android:text="@string/btn_signup"
+        android:textColor="@color/colorAzul"
+        app:layout_constraintBottom_toTopOf="@+id/txtGoLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassSignUp" />
+
+    <TextView
+        android:id="@+id/txtGoLogin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="@string/text_go_login"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSingUp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
