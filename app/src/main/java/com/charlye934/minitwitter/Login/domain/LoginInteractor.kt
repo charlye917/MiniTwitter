@@ -5,6 +5,6 @@ import com.charlye934.minitwitter.Login.data.model.RequestSignUp
 import com.charlye934.minitwitter.Login.data.model.ResponseAuth
 
 interface LoginInteractor {
-    suspend fun getLogin(requestLogin: RequestLogin): ResponseAuth
-    suspend fun doSignUp(requestSignUp: RequestSignUp): ResponseAuth
+    suspend fun getLogin(requestLogin: RequestLogin): Pair<ResponseAuth?,Int>
+    suspend fun doSignUp(requestSignUp: RequestSignUp): Pair<ResponseAuth?,Int>
 }

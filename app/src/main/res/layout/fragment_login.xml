@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/ic_logo_minitwitter_white"
-        app:layout_constraintBottom_toTopOf="@+id/txtMailLogin"
+        app:layout_constraintBottom_toTopOf="@+id/etMailLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/txtMailLogin"
+        android:id="@+id/etMailLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -32,14 +32,14 @@
         android:textColorHighlight="@color/colorAzulDark"
         android:textColorHint="@color/colorAzulDark"
         android:textColorLink="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/txtPassLogin"
+        app:layout_constraintBottom_toTopOf="@+id/etPassLogin"
         app:layout_constraintEnd_toEndOf="@+id/imgLogoLogin"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/imgLogoLogin"
         app:layout_constraintTop_toBottomOf="@+id/imgLogoLogin" />
 
     <EditText
-        android:id="@+id/txtPassLogin"
+        android:id="@+id/etPassLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -51,10 +51,10 @@
         android:textColorHint="@color/colorAzulDark"
         android:textColorLink="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/btnEnterLogin"
-        app:layout_constraintEnd_toEndOf="@+id/txtMailLogin"
+        app:layout_constraintEnd_toEndOf="@+id/etMailLogin"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/txtMailLogin"
-        app:layout_constraintTop_toBottomOf="@+id/txtMailLogin" />
+        app:layout_constraintStart_toStartOf="@+id/etMailLogin"
+        app:layout_constraintTop_toBottomOf="@+id/etMailLogin" />
 
     <Button
         android:id="@+id/btnEnterLogin"
@@ -65,10 +65,10 @@
         android:text="@string/btn_login"
         android:textColor="@color/colorAzul"
         app:layout_constraintBottom_toTopOf="@+id/txtGoSignUp"
-        app:layout_constraintEnd_toEndOf="@+id/txtPassLogin"
+        app:layout_constraintEnd_toEndOf="@+id/etPassLogin"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/txtPassLogin"
-        app:layout_constraintTop_toBottomOf="@+id/txtPassLogin" />
+        app:layout_constraintStart_toStartOf="@+id/etPassLogin"
+        app:layout_constraintTop_toBottomOf="@+id/etPassLogin" />
 
     <TextView
         android:id="@+id/txtGoSignUp"

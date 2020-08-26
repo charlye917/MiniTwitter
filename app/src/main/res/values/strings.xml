@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CL05-MiniTwitter</string>
+    <string name="app_name">MiniTwitter</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Contraseña</string>
     <string name="btn_login">Iniciar sesión</string>
@@ -7,4 +7,12 @@
     <string name="text_go_login">Si ya dispone de una cuenta, inicie sesión aquí.</string>
     <string name="btn_signup">Registrarme</string>
     <string name="hint_username">Nombre de usuario</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_prueba">PruebaActivity</string>
+    <string name="toolbar_title_home">Inicio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

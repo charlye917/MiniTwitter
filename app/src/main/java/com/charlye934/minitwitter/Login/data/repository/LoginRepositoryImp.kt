@@ -9,11 +9,6 @@ class LoginRepositoryImp : LoginRepository{
 
     private var loginService = MiniTwitterClient.getRetrofit()
 
-    override suspend fun getLogin(requestLogin: RequestLogin): ResponseAuth {
-        return loginService.doLogin(requestLogin)
-    }
-
-    override suspend fun doSignUp(requestSignUp: RequestSignUp): ResponseAuth {
-        return loginService.doSignUp(requestSignUp)
-    }
+    override suspend fun getLogin(requestLogin: RequestLogin) = loginService.doLogin(requestLogin)
+    override suspend fun doSignUp(requestSignUp: RequestSignUp) = loginService.doSignUp(requestSignUp)
 }
