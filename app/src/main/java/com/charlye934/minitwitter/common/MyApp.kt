@@ -1,6 +1,7 @@
 package com.charlye934.minitwitter.common
 
 import android.app.Application
+import android.content.Context
 
 class MyApp : Application() {
 
@@ -12,6 +13,6 @@ class MyApp : Application() {
     companion object{
         private lateinit var instace:MyApp
         fun getInstance() = instace
-        fun getContext() = instace
+        fun getContext(): Context = instace
     }
 }

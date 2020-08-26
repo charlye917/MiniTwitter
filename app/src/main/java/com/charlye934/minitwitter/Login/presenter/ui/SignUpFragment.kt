@@ -1,4 +1,4 @@
-package com.charlye934.minitwitter.Login.presenter.view
+package com.charlye934.minitwitter.Login.presenter.ui
 
 import android.content.Context
 import android.os.Bundle

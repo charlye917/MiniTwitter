@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.charlye934.minitwitter.Login.presenter.listener.LoginListener
-import com.charlye934.minitwitter.Login.presenter.view.LoginFragment
-import com.charlye934.minitwitter.Login.presenter.view.SignUpFragment
+import com.charlye934.minitwitter.Login.presenter.ui.LoginFragment
+import com.charlye934.minitwitter.Login.presenter.ui.SignUpFragment
 import com.charlye934.minitwitter.R
 
 class LoginActivity : AppCompatActivity(), LoginListener {

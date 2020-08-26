@@ -1,4 +1,4 @@
-package com.charlye934.minitwitter.Login.presenter.view
+package com.charlye934.minitwitter.Login.presenter.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -23,6 +23,10 @@ class LoginFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        events()
+    }
+
+    private fun events(){
         btnEnterLogin.setOnClickListener(this)
         txtGoSignUp.setOnClickListener(this)
     }
