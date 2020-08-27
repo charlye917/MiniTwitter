@@ -20,8 +20,10 @@ class LoginActivity : AppCompatActivity(), LoginListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        supportActionBar!!.hide()
-        changeFragmen(LoginFragment(), LoginFragment.TAG)
+        if(savedInstanceState != null){
+            supportActionBar!!.hide()
+            changeFragmen(LoginFragment(), LoginFragment.TAG)
+        }
     }
 
     override fun saveDataSharedPrefernces(token:String, username:String, email:String, photo:String, created:String, active:Boolean){

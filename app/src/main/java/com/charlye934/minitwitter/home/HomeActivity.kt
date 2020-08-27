@@ -13,8 +13,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        supportActionBar!!.hide()
-        eventsNavigation()
+        if(savedInstanceState != null){
+            supportActionBar!!.hide()
+            eventsNavigation()
+        }
     }
 
     private fun eventsNavigation(){

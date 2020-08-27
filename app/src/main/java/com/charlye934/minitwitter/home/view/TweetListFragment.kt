@@ -1,4 +1,4 @@
-package com.charlye934.minitwitter.home
+package com.charlye934.minitwitter.home.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,5 +15,10 @@ class TweetListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tweet_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 }

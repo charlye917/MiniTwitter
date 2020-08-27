@@ -2,6 +2,7 @@ package com.charlye934.minitwitter.common
 
 object Constants{
     val BASE_URL = "https://www.minitwitter.com:3001/apiv1/"
+    val PHOTO_URL = "https://www.minitwitter.com/apiv1/uploads/photos/"
 
     //Preferences
     val PREF_TOKEN  = "PREF_TOKEN"
