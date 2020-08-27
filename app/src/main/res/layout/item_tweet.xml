@@ -14,7 +14,6 @@
         android:paddingLeft="8dp"
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
-
         android:src="@drawable/ic_logo_minituiter_mini"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

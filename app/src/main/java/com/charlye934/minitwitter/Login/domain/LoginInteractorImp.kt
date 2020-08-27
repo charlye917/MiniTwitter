@@ -11,22 +11,34 @@ class LoginInteractorImp : LoginInteractor{
 
     private val loginRepository:LoginRepository = LoginRepositoryImp()
 
-    override suspend fun getLogin(requestLogin: RequestLogin): Pair<ResponseAuth?, Int> {
+    override suspend fun getLogin(requestLogin: RequestLogin): ResponseAuth? {
         return try {
             val response = loginRepository.getLogin(requestLogin)
-            Pair(response, 200)
+            response
         }catch (e: Throwable){
-            Pair(null, 400)
+            null
         }
     }
 
-    override suspend fun doSignUp(requestSignUp: RequestSignUp): Pair<ResponseAuth?, Int> {
+    override suspend fun doSignUp(requestSignUp: RequestSignUp): ResponseAuth?{
         return try {
             val response = loginRepository.doSignUp(requestSignUp)
-            Pair(response, 200)
+            response
         }catch (e: Throwable){
-            Pair(null, 400)
+            null
         }
     }
+
+    override fun saveDataShared(
+        token: String,
+        username: String,
+        email: String,
+        photo: String,
+        created: String,
+        active: Boolean
+    ) {
+        loginRepository.saveDataShared(token, username, email, photo, created, active)
+    }
+
 
 }

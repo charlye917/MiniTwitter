@@ -1,4 +1,4 @@
-package com.charlye934.minitwitter.home.data
+package com.charlye934.minitwitter.home.data.service
 
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager

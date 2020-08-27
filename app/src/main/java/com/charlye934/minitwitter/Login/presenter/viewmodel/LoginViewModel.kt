@@ -25,4 +25,8 @@ class LoginViewModel : ViewModel() {
         emit(dataSignUp)
     }
 
+    fun saveDataSharePreferences(token:String, username:String, email:String, photo:String, created:String, active:Boolean){
+        interactor.saveDataShared(token, username, email, photo, created, active)
+    }
+
 }

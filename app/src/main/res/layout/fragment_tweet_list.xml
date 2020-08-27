@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.view.TweetListFragment"
-    android:id="@+id/listFragmentTweet"
+    tools:context=".home.presenter.view.TweetListFragment"
+    android:id="@+id/recyclerlistFragmentTweet"
     android:layout_margin="16dp"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     tools:listitem="@layout/item_tweet"/>

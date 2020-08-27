@@ -1,4 +1,4 @@
-package com.charlye934.minitwitter.Login.presenter
+package com.charlye934.minitwitter.Login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,33 +8,19 @@ import com.charlye934.minitwitter.Login.presenter.listener.LoginListener
 import com.charlye934.minitwitter.Login.presenter.ui.LoginFragment
 import com.charlye934.minitwitter.Login.presenter.ui.SignUpFragment
 import com.charlye934.minitwitter.R
-import com.charlye934.minitwitter.common.Constants
-import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.HomeActivity
 
 class LoginActivity : AppCompatActivity(), LoginListener {
-
-    private val sharedPreferences = SharedPreferencesManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        if(savedInstanceState != null){
+        if(savedInstanceState == null){
             supportActionBar!!.hide()
             changeFragmen(LoginFragment(), LoginFragment.TAG)
         }
     }
-
-    override fun saveDataSharedPrefernces(token:String, username:String, email:String, photo:String, created:String, active:Boolean){
-        sharedPreferences.setSomeStringValue(Constants.PREF_TOKEN, token)
-        sharedPreferences.setSomeStringValue(Constants.PREF_USERNAME, username)
-        sharedPreferences.setSomeStringValue(Constants.PREF_EMAIL, email)
-        sharedPreferences.setSomeStringValue(Constants.PREF_PHOTOURL, photo)
-        sharedPreferences.setSomeStringValue(Constants.PREF_CREATED, created)
-        sharedPreferences.setSomeBooleanValue(Constants.PREF_ACTIVE, active)
-    }
-
 
     override fun goToLogin() {
         changeFragmen(LoginFragment(), LoginFragment.TAG)
@@ -55,5 +41,12 @@ class LoginActivity : AppCompatActivity(), LoginListener {
             .replace(R.id.frameLogin, fragment)
             .addToBackStack(tag)
             .commit()
+    }
+
+    override fun onBackPressed() {
+        when(supportFragmentManager.fragments.last()){
+            is LoginFragment -> {finish()}
+            is SignUpFragment -> { super.onBackPressed() }
+        }
     }
 }

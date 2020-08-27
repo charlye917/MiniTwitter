@@ -10,12 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import com.charlye934.minitwitter.Login.data.model.RequestSignUp
-import com.charlye934.minitwitter.Login.presenter.LoginActivity
+import com.charlye934.minitwitter.Login.LoginActivity
 import com.charlye934.minitwitter.Login.presenter.listener.LoginListener
 import com.charlye934.minitwitter.Login.presenter.viewmodel.LoginViewModel
 import com.charlye934.minitwitter.R
-import com.charlye934.minitwitter.common.Constants
-import com.charlye934.minitwitter.common.SharedPreferencesManager
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : Fragment() {
@@ -57,15 +55,15 @@ class SignUpFragment : Fragment() {
         val code = "UDEMYANDROID"
         viewModel.sedDataSignUp(RequestSignUp(userName, email, pass, code))
             .observe(viewLifecycleOwner){
-                if(it.first != null){
+                if(it!= null){
                     Toast.makeText(context, "Datos guaradados correctamente ", Toast.LENGTH_SHORT).show()
-                    loginListener.saveDataSharedPrefernces(
-                        it.first!!.token,
-                        it.first!!.username,
-                        it.first!!.email,
-                        it.first!!.photoUrl,
-                        it.first!!.created,
-                        it.first!!.active
+                    viewModel.saveDataSharePreferences(
+                        it.token,
+                        it.username,
+                        it.email,
+                        it.photoUrl,
+                        it.created,
+                        it.active
                     )
                     loginListener.goToHomeActivity()
                 }else{

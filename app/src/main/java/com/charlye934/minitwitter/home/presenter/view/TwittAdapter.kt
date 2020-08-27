@@ -1,4 +1,4 @@
-package com.charlye934.minitwitter.home.view
+package com.charlye934.minitwitter.home.presenter.view
 
 import android.content.Context
 import android.graphics.Typeface
@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
-import com.charlye934.minitwitter.common.MyApp
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.data.model.Tweet
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
-class TwittAdapter(val listTweet:List<Tweet>, val context:Context) : RecyclerView.Adapter<TwittAdapter.TwitterViewHolder>(){
+class TwittAdapter(val listTweet:List<Tweet>, val context: Context?) : RecyclerView.Adapter<TwittAdapter.TwitterViewHolder>(){
 
-    private val username = SharedPreferencesManager().setSomeStringValue(Constants.PREF_USERNAME)
+    private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TwitterViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.item_tweet,parent, false)
@@ -32,14 +31,14 @@ class TwittAdapter(val listTweet:List<Tweet>, val context:Context) : RecyclerVie
 
         val photo = item.user.photoUrl
         if(!photo.equals("")){
-            Glide.with(context)
+            Glide.with(context!!)
                 .load(Constants.PHOTO_URL + photo)
                 .into(holder.imgPhoto)
         }
 
         item.likes.forEach{
             if(it.username!!.equals(username)){
-                Glide.with(context)
+                Glide.with(context!!)
                     .load(R.drawable.ic_like_pink)
                     .into(holder.imgLike)
                 holder.tvLikeCount.setTextColor(context.resources.getColor(R.color.pink))
