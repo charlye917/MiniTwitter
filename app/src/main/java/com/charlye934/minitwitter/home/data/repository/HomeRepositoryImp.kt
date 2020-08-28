@@ -9,11 +9,11 @@ class HomeRepositoryImp : HomeRepository {
 
     private val twitterClientService = MiniTwitterClient.authTwitterClient()
 
-    override suspend fun getTwitts(): List<Tweet> {
+    override suspend fun getTwitts(): Response<List<Tweet?>> {
         return twitterClientService.getAllTweets()
     }
 
-    override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Response<Tweet> {
+    override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Response<Tweet?> {
         return twitterClientService.createTweet(requestCreateTweet)
     }
 }

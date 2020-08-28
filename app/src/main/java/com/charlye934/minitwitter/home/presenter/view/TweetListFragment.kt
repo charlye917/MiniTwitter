@@ -35,13 +35,15 @@ class TweetListFragment : Fragment() {
     }
 
     private fun loadTweetData(){
-        viewModel.getTweets().observe(viewLifecycleOwner){
-            if(it != null){
+        viewModel.dataTweet.observe(viewLifecycleOwner) {
+            if (it != null) {
                 tweetList = it as MutableList<Tweet>
                 recyclerData()
-            }else{
-                Toast.makeText(activity, "Algo ha ido mal", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        viewModel.dataError.observe(viewLifecycleOwner){
+                Toast.makeText(context,"Erro al cargar los tweets: $it", Toast.LENGTH_SHORT).show()
         }
     }
 
