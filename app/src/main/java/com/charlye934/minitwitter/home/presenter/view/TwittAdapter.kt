@@ -2,6 +2,7 @@ package com.charlye934.minitwitter.home.presenter.view
 
 import android.content.Context
 import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
-class TweetAdapter(val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
+class TweetAdapter(private val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
     private val listTweet =  ArrayList<Tweet>()
     private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
@@ -25,6 +26,7 @@ class TweetAdapter(val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapt
     fun updateData(newTweet:List<Tweet>){
         listTweet.clear()
         listTweet.addAll(newTweet)
+        Log.d("adapter",listTweet[listTweet.size - 1 ].likes.toString())
         notifyDataSetChanged()
     }
 
@@ -42,7 +44,7 @@ class TweetAdapter(val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapt
 
         val photo = item.user.photoUrl
         if(!photo.equals("")){
-            Glide.with(context!!)
+            Glide.with(context)
                 .load(Constants.PHOTO_URL + photo)
                 .into(holder.imgPhoto)
         }
@@ -59,7 +61,7 @@ class TweetAdapter(val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapt
 
         item.likes.forEach{
             if(it.username!!.equals(username)){
-                Glide.with(context!!)
+                Glide.with(context)
                     .load(R.drawable.ic_like_pink)
                     .into(holder.imgLike)
                 holder.tvLikeCount.setTextColor(context.resources.getColor(R.color.pink))

@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_tweet_list.*
 class TweetListFragment : Fragment(), ListenerHome {
 
     private val viewModel:HomeViewModel by activityViewModels()
-    private var listTweets:ArrayList<Tweet> = arrayListOf()
     private val tweetAdapter = TweetAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +32,11 @@ class TweetListFragment : Fragment(), ListenerHome {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        swipeRefresh()
-        recyclerData()
-        loadTweetData()
+        if(savedInstanceState == null){
+            swipeRefresh()
+            recyclerData()
+            loadTweetData()
+        }
     }
 
     private fun swipeRefresh(){
@@ -57,8 +58,7 @@ class TweetListFragment : Fragment(), ListenerHome {
     private fun loadTweetData(){
         viewModel.getTweets().observe(viewLifecycleOwner) {
             if(it != null){
-                listTweets = it as ArrayList<Tweet>
-                tweetAdapter.updateData(listTweets)
+                tweetAdapter.updateData(it)
                 refreshTweeList.isRefreshing = false
             }else{
                 Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
@@ -71,8 +71,7 @@ class TweetListFragment : Fragment(), ListenerHome {
         viewModel.likeTweet(idTweet).observe(viewLifecycleOwner){
             if(it != null){
                 Toast.makeText(context, "Le dio like", Toast.LENGTH_SHORT).show()
-                listTweets.add(it)
-                tweetAdapter.updateData(listTweets)
+                loadTweetData()
             }else{
                 Toast.makeText(context, "Problema al dar like", Toast.LENGTH_SHORT).show()
             }

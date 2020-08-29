@@ -52,9 +52,11 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun goToHome(){
-        supportFragmentManager.beginTransaction()
-            .replace( R.id.frameHome, TweetListFragment())
-            .commit()
+        if(supportFragmentManager.findFragmentById(R.id.frameHome) == null){
+            supportFragmentManager.beginTransaction()
+                .replace( R.id.frameHome, TweetListFragment())
+                .commit()
+        }
     }
 
     private fun changeFragment(fragment:Fragment, tag:String){
