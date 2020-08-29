@@ -61,6 +61,7 @@ class NewTweetDialogFragment : DialogFragment() {
             Toast.makeText(context,"Debe escribir un texto en el mensaje",Toast.LENGTH_SHORT).show()
         }else{
             viewModel.postTweet(RequestCreateTweet(mensaje))
+            Toast.makeText(context,"Su mensaje a sido publicado",Toast.LENGTH_SHORT).show()
         }
     }
 
