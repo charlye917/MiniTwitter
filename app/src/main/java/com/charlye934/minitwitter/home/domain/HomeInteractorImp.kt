@@ -23,6 +23,7 @@ class HomeInteractorImp : HomeInteractor {
             val response = homeRepository.postTweet(requestCreateTweet)
             response
         }catch (e: Throwable){
+            print("${e.message}")
             null
         }
     }

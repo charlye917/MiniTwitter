@@ -10,7 +10,7 @@ import com.charlye934.minitwitter.home.domain.HomeInteractorImp
 
 class HomeViewModel : ViewModel() {
     private val homeInteractor:HomeInteractor = HomeInteractorImp()
-    
+
     fun getTweets() = liveData {
         val dataTweet = homeInteractor.getTwitts()
         emit(dataTweet)

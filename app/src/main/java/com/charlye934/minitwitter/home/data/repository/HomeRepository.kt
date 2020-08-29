@@ -4,15 +4,10 @@ import com.charlye934.minitwitter.common.MiniTwitterClient
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
 
-class HomeRepositoryImp : HomeRepository {
+interface HomeRepository {
 
-    private val twitterClientService = MiniTwitterClient.authTwitterClient()
+     suspend fun getTwitts(): List<Tweet>
 
-    override suspend fun getTwitts(): List<Tweet> {
-        return twitterClientService.getAllTweets()
-    }
+     suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Tweet
 
-    override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Tweet {
-        return twitterClientService.createTweet(requestCreateTweet)
-    }
 }

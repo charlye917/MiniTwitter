@@ -19,6 +19,7 @@ import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.new_tweet_dialog.*
 
+
 class NewTweetDialogFragment : DialogFragment() {
 
     private val viewModel: HomeViewModel by viewModels()
@@ -60,8 +61,14 @@ class NewTweetDialogFragment : DialogFragment() {
         if(mensaje.isEmpty()){
             Toast.makeText(context,"Debe escribir un texto en el mensaje",Toast.LENGTH_SHORT).show()
         }else{
-            viewModel.postTweet(RequestCreateTweet(mensaje))
-            Toast.makeText(context,"Su mensaje a sido publicado",Toast.LENGTH_SHORT).show()
+            viewModel.postTweet(RequestCreateTweet(mensaje)).observe(viewLifecycleOwner){
+                if(it != null) {
+                    Toast.makeText(context,"El mensaje a sido posteado correctamente",Toast.LENGTH_SHORT).show()
+                    dialog!!.dismiss()
+                }else {
+                    Toast.makeText(context,"Problemas al enviar el mensaje intentelo mas tarde",Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
