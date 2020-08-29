@@ -9,13 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
+import com.charlye934.minitwitter.common.MyApp
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.data.model.Tweet
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
-class TwittAdapter(val listTweet:List<Tweet>, val context: Context?) : RecyclerView.Adapter<TwittAdapter.TwitterViewHolder>(){
+class TwittAdapter(private val listTweet: ArrayList<Tweet>) : RecyclerView.Adapter<TwittAdapter.TwitterViewHolder>(){
 
     private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
+    private val context = MyApp.getContext()
+
+    fun updateData(newTweet:List<Tweet>){
+        listTweet.clear()
+        listTweet.addAll(newTweet)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TwitterViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.item_tweet,parent, false)

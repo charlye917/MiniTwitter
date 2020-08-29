@@ -16,8 +16,7 @@ import kotlinx.android.synthetic.main.fragment_tweet_list.*
 
 class TweetListFragment : Fragment() {
 
-    private lateinit var adapter: TwittAdapter
-    private var tweetList: MutableList<Tweet> = arrayListOf()
+    private var tweetList: ArrayList<Tweet> = arrayListOf()
     private val viewModel:HomeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,22 +34,20 @@ class TweetListFragment : Fragment() {
     }
 
     private fun loadTweetData(){
-        viewModel.dataTweet.observe(viewLifecycleOwner) {
-            if (it != null) {
-                tweetList = it as MutableList<Tweet>
+        viewModel.getTweets().observe(viewLifecycleOwner) {
+            if(it != null){
+                tweetList = it as ArrayList<Tweet>
                 recyclerData()
+            }else{
+                Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
             }
-        }
-
-        viewModel.dataError.observe(viewLifecycleOwner){
-                Toast.makeText(context,"Erro al cargar los tweets: $it", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun recyclerData(){
         recyclerlistFragmentTweet.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = TwittAdapter(tweetList, context)
+            adapter = TwittAdapter(tweetList)
         }
     }
 

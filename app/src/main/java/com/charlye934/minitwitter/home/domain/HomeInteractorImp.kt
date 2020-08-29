@@ -1,5 +1,6 @@
 package com.charlye934.minitwitter.home.domain
 
+import android.util.Log
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.data.repository.HomeRepository
@@ -10,21 +11,22 @@ class HomeInteractorImp : HomeInteractor {
 
     private val homeRepository: HomeRepository = HomeRepositoryImp()
 
-    override suspend fun getTwitts(): Response<List<Tweet?>>{
+    override suspend fun getTwitts(): List<Tweet>? {
         return try {
             val response = homeRepository.getTwitts()
             response
         }catch (e: Throwable){
-            null!!
+            Log.d("response","error ${e.message}")
+            null
         }
     }
 
-    override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Response<Tweet?> {
+    override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Tweet? {
         return try {
             val response = homeRepository.postTweet(requestCreateTweet)
             response
         }catch (e: Throwable){
-            null!!
+            null
         }
     }
 }

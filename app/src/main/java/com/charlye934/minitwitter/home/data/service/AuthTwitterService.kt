@@ -9,8 +9,8 @@ import retrofit2.http.POST
 
 interface AuthTwitterService {
     @GET("tweets/all")
-    suspend fun getAllTweets(): Response<List<Tweet?>>
+    suspend fun getAllTweets(): List<Tweet>
 
     @POST("tweets/create")
-    suspend fun createTweet(@Body requestCreateTweet: RequestCreateTweet): Response<Tweet?>
+    suspend fun createTweet(@Body requestCreateTweet: RequestCreateTweet): Tweet
 }
