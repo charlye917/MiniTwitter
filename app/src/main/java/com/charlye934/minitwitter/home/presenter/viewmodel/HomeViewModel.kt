@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel : ViewModel() {
-    val homeInteractor:HomeInteractor = HomeInteractorImp()
+    private val homeInteractor:HomeInteractor = HomeInteractorImp()
 
 
     fun getTweets() =  liveData{
