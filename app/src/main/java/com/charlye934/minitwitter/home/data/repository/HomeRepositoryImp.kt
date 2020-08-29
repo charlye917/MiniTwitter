@@ -16,4 +16,8 @@ class HomeRepositoryImp : HomeRepository {
     override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Tweet {
         return twitterClientService.createTweet(requestCreateTweet)
     }
+
+    override suspend fun likeTweet(idTweet: Int): Tweet {
+        return twitterClientService.likeTweet(idTweet)
+    }
 }

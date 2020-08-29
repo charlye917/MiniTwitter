@@ -6,5 +6,6 @@ import com.charlye934.minitwitter.home.data.model.Tweet
 interface HomeInteractor {
         suspend fun getTwitts(): List<Tweet>?
         suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Tweet?
+        suspend fun likeTweet(idTweet: Int): Tweet?
 
 }

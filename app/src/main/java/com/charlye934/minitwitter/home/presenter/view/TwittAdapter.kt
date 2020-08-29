@@ -12,9 +12,11 @@ import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.MyApp
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.data.model.Tweet
+import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
+import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
-class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
+class TweetAdapter(val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
     private val listTweet =  ArrayList<Tweet>()
     private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
@@ -50,6 +52,10 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
             .into(holder.imgLike)
         holder.tvLikeCount.setTextColor(context.resources.getColor(android.R.color.black))
         holder.tvLikeCount.setTypeface(null, Typeface.NORMAL)
+
+        holder.imgLike.setOnClickListener {
+            listener.likePhoto(item.id)
+        }
 
         item.likes.forEach{
             if(it.username!!.equals(username)){

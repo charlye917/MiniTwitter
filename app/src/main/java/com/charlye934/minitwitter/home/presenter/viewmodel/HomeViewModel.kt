@@ -20,4 +20,9 @@ class HomeViewModel : ViewModel() {
         val dataTweet = homeInteractor.postTweet(requestCreateTweet)
         emit(dataTweet)
     }
+
+    fun likeTweet(idTweet: Int) = liveData{
+        val response = homeInteractor.likeTweet(idTweet)
+        emit(response)
+    }
 }

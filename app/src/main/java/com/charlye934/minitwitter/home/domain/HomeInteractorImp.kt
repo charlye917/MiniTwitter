@@ -29,4 +29,14 @@ class HomeInteractorImp : HomeInteractor {
             null
         }
     }
+
+    override suspend fun likeTweet(idTweet: Int): Tweet? {
+        return try {
+            val response = homeRepository.likeTweet(idTweet)
+            response
+        }catch (e: Throwable){
+            Log.d("Error", "error: ${e.message}")
+            null
+        }
+    }
 }
