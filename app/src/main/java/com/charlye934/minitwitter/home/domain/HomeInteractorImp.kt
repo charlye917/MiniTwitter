@@ -1,5 +1,6 @@
 package com.charlye934.minitwitter.home.domain
 
+import android.util.Log
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.data.repository.HomeRepository
@@ -14,6 +15,7 @@ class HomeInteractorImp : HomeInteractor {
             val response = homeRepository.getTwitts()
             response
         }catch (e: Throwable){
+            Log.d("Error","${e.message}")
             null
         }
     }
@@ -23,7 +25,7 @@ class HomeInteractorImp : HomeInteractor {
             val response = homeRepository.postTweet(requestCreateTweet)
             response
         }catch (e: Throwable){
-            print("${e.message}")
+            Log.d("Error","${e.message}")
             null
         }
     }

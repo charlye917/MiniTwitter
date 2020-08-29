@@ -44,6 +44,7 @@ class SharedPreferencesManager {
     fun getSomeStringValue(dataLabel: String): String?{
         return sharedPreferences.getString(dataLabel,null)
     }
+
     fun getSomeBooleanVlaue(dataLabel: String): Boolean?{
         return sharedPreferences.getBoolean(dataLabel, false)
     }

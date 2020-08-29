@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
@@ -30,17 +31,17 @@ class TweetListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        swipeRefresh()
         recyclerData()
         loadTweetData()
     }
 
-    private fun loadTweetData(){
-        viewModel.getTweets().observe(viewLifecycleOwner) {
-            if(it != null){
-                tweetAdapter.updateData(it)
-            }else{
-                Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
-            }
+    private fun swipeRefresh(){
+        refreshTweeList.setColorSchemeColors(resources.getColor(R.color.colorAzul))
+
+        refreshTweeList.setOnRefreshListener {
+            refreshTweeList.isRefreshing = true
+            loadTweetData()
         }
     }
 
@@ -48,6 +49,18 @@ class TweetListFragment : Fragment() {
         recyclerlistFragmentTweet.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = tweetAdapter
+        }
+    }
+
+    private fun loadTweetData(){
+        viewModel.getTweets().observe(viewLifecycleOwner) {
+            if(it != null){
+                tweetAdapter.updateData(it)
+                refreshTweeList.isRefreshing = false
+            }else{
+                Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
+                refreshTweeList.isRefreshing = false
+            }
         }
     }
 
