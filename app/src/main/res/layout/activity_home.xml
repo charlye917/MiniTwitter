@@ -76,13 +76,12 @@
             android:id="@+id/navigationHome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:labelVisibilityMode="unlabeled"
             android:background="?android:attr/windowBackground"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:layout_gravity="bottom"
             app:menu="@menu/navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

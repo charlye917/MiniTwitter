@@ -11,9 +11,9 @@ import com.charlye934.minitwitter.home.data.repository.HomeRepositoryImp
 class HomeInteractorImp : HomeInteractor {
 
     private val homeRepository: HomeRepository = HomeRepositoryImp()
-    val userName = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
+    private val userName = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
     private var allTweet: ArrayList<Tweet> = arrayListOf()
-    private var favsTweets = arrayListOf<Tweet>()
+    private var favTweets = arrayListOf<Tweet>()
 
     override suspend fun getTwitts(): List<Tweet>?{
         return try {
@@ -48,26 +48,24 @@ class HomeInteractorImp : HomeInteractor {
     }
 
     override suspend fun getFavsTweets(): List<Tweet>? {
-
         if(allTweet.isEmpty()){
-            getTwitts()
+            allTweet = getTwitts() as ArrayList<Tweet>
         }
 
         return try{
-            favsTweets.clear()
+            favTweets.clear()
             for(i in 0..allTweet.size - 1){
                 if(allTweet[i].likes.isNotEmpty()){
                     for(j in 0..allTweet[i].likes.size - 1){
                         if(allTweet[i].likes[j].username.equals(userName)){
-                            favsTweets.add(allTweet[i])
+                            favTweets.add(allTweet[i])
                         }
                     }
                 }
             }
-            favsTweets
+            favTweets
         }catch (e:Throwable){
            null
         }
     }
-
 }

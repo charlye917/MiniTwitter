@@ -21,16 +21,7 @@ import kotlinx.android.synthetic.main.fragment_tweet_list.*
 class TweetListFragment : Fragment(), ListenerHome {
 
     private val viewModel:HomeViewModel by activityViewModels()
-    private val tweetAdapter = TweetAdapter(this)
-    private var tweetListType: Int = 1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if(arguments != null){
-            tweetListType = requireArguments().getInt(Constants.TWEET_LIST_TYPE)
-        }
-    }
+    private val tweetAdapter = TweetAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tweet_list, container, false)
@@ -42,11 +33,7 @@ class TweetListFragment : Fragment(), ListenerHome {
         if(savedInstanceState == null){
             swipeRefresh()
             recyclerData()
-
-            //if(tweetListType == Constants.TWEET_LIST_ALL)
-                loadTweetData()
-            //else if(tweetListType == Constants.TWEET_LIST_FAVS)
-            //    loadNewFavData()
+            loadTweetData()
         }
     }
 
@@ -55,10 +42,7 @@ class TweetListFragment : Fragment(), ListenerHome {
 
         refreshTweeList.setOnRefreshListener {
             refreshTweeList.isRefreshing = true
-            if(tweetListType == Constants.TWEET_LIST_ALL)
-                loadTweetData()
-            else
-                loadNewFavData()
+            loadTweetData()
         }
     }
 
@@ -72,7 +56,7 @@ class TweetListFragment : Fragment(), ListenerHome {
     private fun loadTweetData(){
         viewModel.getTweets().observe(viewLifecycleOwner) {
             if(it != null){
-                tweetAdapter.updateData(it)
+                tweetAdapter.updateData(it, this)
                 refreshTweeList.isRefreshing = false
             }else{
                 Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
@@ -80,17 +64,6 @@ class TweetListFragment : Fragment(), ListenerHome {
             }
         }
     }
-
-    private fun loadNewFavData(){
-        viewModel.getFavTweet().observe(viewLifecycleOwner){
-            if(it != null){
-                tweetAdapter.setData(it)
-            }else{
-                Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-    private fun loadFavTweetData(){}
 
     override fun likePhoto(idTweet: Int) {
         viewModel.likeTweet(idTweet).observe(viewLifecycleOwner){
@@ -104,7 +77,6 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     companion object {
-        val TAG = this::class.java.simpleName
         fun newInstance() = TweetListFragment()
     }
 }

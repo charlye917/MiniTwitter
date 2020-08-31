@@ -2,6 +2,8 @@ package com.charlye934.minitwitter.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
@@ -15,15 +17,17 @@ import com.charlye934.minitwitter.home.presenter.listener.StateFragment
 import com.charlye934.minitwitter.home.presenter.view.TweetListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
+private val TAG_ONE = Constants.TWEET_LIST_ALL
+private val TAG_TWO = Constants.TWEET_LIST_FAVS
+private const val TAG_THREE = "THREE"
+private const val MAX_HISTORIC = 4
+
 class HomeActivity : AppCompatActivity() {
 
-    private val TAG_ONE = TweetListFragment.TAG
-    private val TAG_TWO = FavoriteFragment.TAG
-    private val MAX_HISTORIC = 4
-
     private val listState = mutableListOf<StateFragment>()
-    private var currentTag:String = TAG_ONE
+    private var currentTag = TAG_ONE
     private var oldTag = TAG_ONE
+    private var currentMenuItem = R.id.navigationHome
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +35,8 @@ class HomeActivity : AppCompatActivity() {
 
         if(savedInstanceState == null){
             supportActionBar!!.hide()
-            goToHomeTweets()
             init()
+            goToHomeTweets()
         }
     }
 
@@ -45,23 +49,33 @@ class HomeActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "NewTweetDialgoFragment")
         }
 
-        navigationHome.setOnNavigationItemSelectedListener{ item ->
-            when(item.itemId){
+        navigationHome.setOnNavigationItemSelectedListener{ menuItem ->
+            val fragmet = supportFragmentManager.findFragmentById(R.id.frameHome)
+
+            when(menuItem.itemId){
                 R.id.navigation_home ->{
                     btnFloatHome.show()
                     changeFragment(TAG_ONE, TweetListFragment.newInstance())
                 }
                 R.id.navigation_favs ->{
                     btnFloatHome.hide()
-                    changeFragment(TAG_TWO, FavoriteFragment())
+                    changeFragment(TAG_TWO, FavoriteFragment.newInstance())
                 }
                 R.id.navigation_notification ->{
+                    btnFloatHome.hide()
                     Toast.makeText(applicationContext, "notification",Toast.LENGTH_SHORT).show()
                 }
             }
             true
         }
-        false
+    }
+
+    private fun changeFragment2(tag:String, fragment:Fragment){
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.frameHome, fragment)
+            .commit()
+
     }
 
     private fun setPicturePerfil(){
@@ -84,22 +98,26 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun changeFragment(tagToChange: String, fragment: Fragment){
-        if(currentTag != tagToChange){
-            val ft = supportFragmentManager.beginTransaction()
-            val currentFragment = supportFragmentManager.findFragmentByTag(currentTag)
-            val fragmentToReplaceByTag = supportFragmentManager.findFragmentByTag(tagToChange)
 
-            oldTag = currentTag
-            currentTag = tagToChange
+        if(fragment == FavoriteFragment()){
 
-            if(fragmentToReplaceByTag != null)
-                currentFragment?.let{ ft.hide(it).show(fragmentToReplaceByTag)}
-            else
-                currentFragment?.let{ ft.hide(it).add(R.id.frameHome, fragment, tagToChange)}
+        }else{
+            if(currentTag != tagToChange){
+                val ft = supportFragmentManager.beginTransaction()
+                val currentFragment = supportFragmentManager.findFragmentByTag(currentTag)
+                val fragmentToReplaceByTag = supportFragmentManager.findFragmentByTag(tagToChange)
 
-            ft.commit()
+                oldTag = currentTag
+                currentTag = tagToChange
 
-            addBackStack()
+                if(fragmentToReplaceByTag != null)
+                    currentFragment?.let{ ft.hide(it).show(fragmentToReplaceByTag)}
+                else
+                    currentFragment?.let{ ft.hide(it).add(R.id.frameHome, fragment, tagToChange)}
+
+                ft.commit()
+                addBackStack()
+            }
         }
     }
 
@@ -125,8 +143,15 @@ class HomeActivity : AppCompatActivity() {
 
         ft.commit()
 
+        val menu = navigationHome.menu
+
+        when(lastSate.oldFragment){
+            TAG_ONE -> setMenuItem(menu.getItem(0))
+            TAG_TWO -> setMenuItem(menu.getItem(1))
+        }
+
         //Remove from Stack
-        listState.removeAt(listState.size)
+        listState.removeAt(listState.size -1)
 
         if(listState.isEmpty()){
             currentTag = TAG_ONE
@@ -135,6 +160,11 @@ class HomeActivity : AppCompatActivity() {
             currentTag = listState.last().currentFragmentTag
             oldTag = listState.last().oldFragment
         }
+    }
+
+    private fun setMenuItem(menuItem: MenuItem){
+        menuItem.isChecked = true
+        currentMenuItem = menuItem.itemId
     }
 
     //Like youtube

@@ -17,13 +17,15 @@ import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
-class TweetAdapter(private val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
+class TweetAdapter() : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
+    private lateinit var listener: ListenerHome
     private var listTweet =  ArrayList<Tweet>()
     private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
     private val context = MyApp.getContext()
 
-    fun updateData(newTweet:List<Tweet>){
+    fun updateData(newTweet:List<Tweet>, listenerHome: ListenerHome){
+        listener = listenerHome
         listTweet.clear()
         listTweet.addAll(newTweet)
         notifyDataSetChanged()
