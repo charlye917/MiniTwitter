@@ -81,6 +81,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:menu="@menu/navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

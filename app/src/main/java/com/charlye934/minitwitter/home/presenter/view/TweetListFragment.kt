@@ -1,6 +1,7 @@
 package com.charlye934.minitwitter.home.presenter.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.charlye934.minitwitter.R
+import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
@@ -20,9 +22,14 @@ class TweetListFragment : Fragment(), ListenerHome {
 
     private val viewModel:HomeViewModel by activityViewModels()
     private val tweetAdapter = TweetAdapter(this)
+    private var tweetListType: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(arguments != null){
+            tweetListType = requireArguments().getInt(Constants.TWEET_LIST_TYPE)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,7 +42,11 @@ class TweetListFragment : Fragment(), ListenerHome {
         if(savedInstanceState == null){
             swipeRefresh()
             recyclerData()
-            loadTweetData()
+
+            //if(tweetListType == Constants.TWEET_LIST_ALL)
+                loadTweetData()
+            //else if(tweetListType == Constants.TWEET_LIST_FAVS)
+            //    loadNewFavData()
         }
     }
 
@@ -44,7 +55,10 @@ class TweetListFragment : Fragment(), ListenerHome {
 
         refreshTweeList.setOnRefreshListener {
             refreshTweeList.isRefreshing = true
-            loadTweetData()
+            if(tweetListType == Constants.TWEET_LIST_ALL)
+                loadTweetData()
+            else
+                loadNewFavData()
         }
     }
 
@@ -67,6 +81,17 @@ class TweetListFragment : Fragment(), ListenerHome {
         }
     }
 
+    private fun loadNewFavData(){
+        viewModel.getFavTweet().observe(viewLifecycleOwner){
+            if(it != null){
+                tweetAdapter.setData(it)
+            }else{
+                Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun loadFavTweetData(){}
+
     override fun likePhoto(idTweet: Int) {
         viewModel.likeTweet(idTweet).observe(viewLifecycleOwner){
             if(it != null){
@@ -78,7 +103,8 @@ class TweetListFragment : Fragment(), ListenerHome {
         }
     }
 
-    companion object{
+    companion object {
         val TAG = this::class.java.simpleName
+        fun newInstance() = TweetListFragment()
     }
 }

@@ -53,14 +53,6 @@ class LoginFragment : Fragment(){
         viewmodel.sendDataLogin(RequestLogin(email, password))
             .observe(viewLifecycleOwner){
                 if(it != null){
-                    viewmodel.saveDataSharePreferences(
-                        it.token,
-                        it.username,
-                        it.email,
-                        it.photoUrl,
-                        it.created,
-                        it.active
-                    )
                     loginListener.goToHomeActivity()
                 }else{
                     Toast.makeText(context, "Algo fue mal revise sus datos", Toast.LENGTH_SHORT).show()

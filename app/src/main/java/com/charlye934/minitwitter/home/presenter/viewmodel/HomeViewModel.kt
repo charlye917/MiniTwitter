@@ -15,7 +15,6 @@ class HomeViewModel : ViewModel() {
     fun getTweets() = liveData{
         val response =  homeInteractor.getTwitts()
         emit(response)
-
     }
 
     fun postTweet(requestCreateTweet: RequestCreateTweet) = liveData{
@@ -26,5 +25,11 @@ class HomeViewModel : ViewModel() {
     fun likeTweet(idTweet: Int) = liveData{
         val response = homeInteractor.likeTweet(idTweet)
         emit(response)
+    }
+
+    fun getFavTweet() = liveData {
+        val response = homeInteractor.getFavsTweets()
+        emit(response)
+
     }
 }

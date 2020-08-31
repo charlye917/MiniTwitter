@@ -19,14 +19,19 @@ import kotlinx.android.synthetic.main.item_tweet.view.*
 
 class TweetAdapter(private val listener: ListenerHome) : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
-    private val listTweet =  ArrayList<Tweet>()
+    private var listTweet =  ArrayList<Tweet>()
     private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
     private val context = MyApp.getContext()
 
     fun updateData(newTweet:List<Tweet>){
         listTweet.clear()
         listTweet.addAll(newTweet)
-        Log.d("adapter",listTweet[listTweet.size - 1 ].likes.toString())
+        notifyDataSetChanged()
+    }
+
+    fun setData(tweetList: List<Tweet>){
+        listTweet.clear()
+        listTweet = tweetList as ArrayList<Tweet>
         notifyDataSetChanged()
     }
 
