@@ -3,6 +3,7 @@ package com.charlye934.minitwitter.home.data.repository
 import com.charlye934.minitwitter.common.MiniTwitterClient
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
+import com.charlye934.minitwitter.home.data.model.TweetDelete
 import retrofit2.Response
 
 class HomeRepositoryImp : HomeRepository {
@@ -20,4 +21,10 @@ class HomeRepositoryImp : HomeRepository {
     override suspend fun likeTweet(idTweet: Int): Tweet {
         return twitterClientService.likeTweet(idTweet)
     }
+
+    override suspend fun deleteTweet(idTweet: Int): TweetDelete {
+        return twitterClientService.deleteTweet(idTweet)
+    }
+
+
 }

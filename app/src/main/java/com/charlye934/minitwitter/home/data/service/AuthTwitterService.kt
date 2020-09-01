@@ -2,10 +2,8 @@ package com.charlye934.minitwitter.home.data.service
 
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import com.charlye934.minitwitter.home.data.model.TweetDelete
+import retrofit2.http.*
 
 interface AuthTwitterService {
     @GET("tweets/all")
@@ -16,4 +14,7 @@ interface AuthTwitterService {
 
     @POST("tweets/like/{idTweet}")
     suspend fun likeTweet(@Path("idTweet") idTweet: Int): Tweet
+
+    @DELETE("tweets/{idTweet}")
+    suspend fun deleteTweet(@Path("idTweet") idTweet: Int): TweetDelete
 }

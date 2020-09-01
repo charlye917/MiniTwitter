@@ -5,8 +5,10 @@ import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
+import com.charlye934.minitwitter.home.data.model.TweetDelete
 import com.charlye934.minitwitter.home.data.repository.HomeRepository
 import com.charlye934.minitwitter.home.data.repository.HomeRepositoryImp
+import java.lang.Exception
 
 class HomeInteractorImp : HomeInteractor {
 
@@ -67,5 +69,22 @@ class HomeInteractorImp : HomeInteractor {
         }catch (e:Throwable){
            null
         }
+    }
+
+    override suspend fun deleteTweet(idTweet: Int): TweetDelete? {
+        val cloneTweet = arrayListOf<Tweet>()
+       return try {
+           val response = homeRepository.deleteTweet(idTweet)
+           for(i in 0..allTweet.size - 1 ){
+               if(allTweet[i].id != idTweet){
+                   cloneTweet.add(allTweet[i])
+               }
+           }
+           allTweet = cloneTweet
+           getFavsTweets()
+           response
+       }catch (e: Throwable){
+           null
+       }
     }
 }
