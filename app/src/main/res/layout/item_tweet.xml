@@ -60,4 +60,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgLikeItem"
         app:layout_constraintStart_toEndOf="@+id/imgLikeItem"
         app:layout_constraintTop_toTopOf="@+id/imgLikeItem" />
+
+    <ImageView
+        android:id="@+id/imgShowMenuItemTweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvUsernameItem"
+        android:src="@drawable/ic_keyboard_arrow_down_gris_24dp"
+        tools:ignore="ContentDescription" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

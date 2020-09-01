@@ -17,7 +17,7 @@ import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
-class TweetAdapter() : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
+class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
     private lateinit var listener: ListenerHome
     private var listTweet =  ArrayList<Tweet>()
@@ -62,6 +62,14 @@ class TweetAdapter() : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         holder.tvLikeCount.setTextColor(context.resources.getColor(android.R.color.black))
         holder.tvLikeCount.setTypeface(null, Typeface.NORMAL)
 
+        holder.imgShowMenu.visibility = View.GONE
+        if(item.user.username.equals(username))
+            holder.imgShowMenu.visibility = View.VISIBLE
+
+        holder.imgShowMenu.setOnClickListener {
+            listener.deleteTweet(item.id)
+        }
+
         holder.imgLike.setOnClickListener {
             listener.likePhoto(item.id)
         }
@@ -85,6 +93,7 @@ class TweetAdapter() : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         val tvUsername = item.tvUsernameItem
         val tvMessage = item.tvMessageItem
         val tvLikeCount = item.tvCountLikes
+        val imgShowMenu = item.imgShowMenuItemTweet
     }
 
 }

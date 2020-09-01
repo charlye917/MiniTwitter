@@ -1,6 +1,7 @@
 package com.charlye934.minitwitter.home.domain
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
@@ -14,29 +15,77 @@ class HomeInteractorImp : HomeInteractor {
 
     private val homeRepository: HomeRepository = HomeRepositoryImp()
     private val userName = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
-    private var allTweet: ArrayList<Tweet> = arrayListOf()
-    private var favTweets = arrayListOf<Tweet>()
+    private var allTweet: MutableLiveData<List<Tweet>> = MutableLiveData()
+    private var favTweets = MutableLiveData<List<Tweet>>()
 
-    override suspend fun getTwitts(): List<Tweet>?{
+    override suspend fun getAllTwitts(): List<Tweet>?{
         return try {
             val response = homeRepository.getTwitts()
-            allTweet = response as ArrayList<Tweet>
+            allTweet.value = response
             response
         }catch (e: Throwable){
             Log.d("Error","${e.message}")
-            allTweet = arrayListOf()
+            allTweet = MutableLiveData()
             null
         }
     }
 
-    override suspend fun postTweet(requestCreateTweet: RequestCreateTweet): Tweet? {
+    override suspend fun getFavsTweets(): List<Tweet>? {
+        Log.d("interactor",allTweet.toString())
+        if(allTweet.value.isNullOrEmpty()){
+            allTweet.value = getAllTwitts()
+        }
+
+        return try{
+            val itTweet = allTweet.value!!.iterator()
+            var newFavList = arrayListOf<Tweet>()
+
+            while(itTweet.hasNext()){
+                val current = itTweet.next()
+                val itLikes = current.likes.iterator()
+                var enc = false
+
+                while(itLikes.hasNext() && !enc){
+                    val like = itLikes.next()
+                    if(like.username.equals(userName)){
+                        enc = true
+                        newFavList.add(current)
+                    }
+                }
+            }
+            newFavList
+
+        }catch (e:Throwable){
+            null
+        }
+    }
+
+    override suspend fun createTweet(requestCreateTweet: RequestCreateTweet): Tweet? {
         return try {
-            val response = homeRepository.postTweet(requestCreateTweet)
+            val response = homeRepository.createTweet(requestCreateTweet)
             response
         }catch (e: Throwable){
             Log.d("Error","${e.message}")
             null
         }
+    }
+
+    override suspend fun deleteTweet(idTweet: Int): TweetDelete? {
+        val cloneTweet = arrayListOf<Tweet>()
+       return try {
+           val response = homeRepository.deleteTweet(idTweet)
+           for(i in allTweet.value!!.indices){
+               if(allTweet.value!![i].id != idTweet){
+                   cloneTweet.add(allTweet.value!![i])
+               }
+            }
+
+           allTweet.value = cloneTweet
+           getFavsTweets()
+           response
+       }catch (e: Throwable){
+           null
+       }
     }
 
     override suspend fun likeTweet(idTweet: Int): Tweet? {
@@ -47,44 +96,5 @@ class HomeInteractorImp : HomeInteractor {
             Log.d("Error", "error: ${e.message}")
             null
         }
-    }
-
-    override suspend fun getFavsTweets(): List<Tweet>? {
-        if(allTweet.isEmpty()){
-            allTweet = getTwitts() as ArrayList<Tweet>
-        }
-
-        return try{
-            favTweets.clear()
-            for(i in 0..allTweet.size - 1){
-                if(allTweet[i].likes.isNotEmpty()){
-                    for(j in 0..allTweet[i].likes.size - 1){
-                        if(allTweet[i].likes[j].username.equals(userName)){
-                            favTweets.add(allTweet[i])
-                        }
-                    }
-                }
-            }
-            favTweets
-        }catch (e:Throwable){
-           null
-        }
-    }
-
-    override suspend fun deleteTweet(idTweet: Int): TweetDelete? {
-        val cloneTweet = arrayListOf<Tweet>()
-       return try {
-           val response = homeRepository.deleteTweet(idTweet)
-           for(i in 0..allTweet.size - 1 ){
-               if(allTweet[i].id != idTweet){
-                   cloneTweet.add(allTweet[i])
-               }
-           }
-           allTweet = cloneTweet
-           getFavsTweets()
-           response
-       }catch (e: Throwable){
-           null
-       }
     }
 }

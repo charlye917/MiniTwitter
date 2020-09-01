@@ -61,7 +61,7 @@ class NewTweetDialogFragment : DialogFragment() {
         if(mensaje.isEmpty()){
             Toast.makeText(context,"Debe escribir un texto en el mensaje",Toast.LENGTH_SHORT).show()
         }else{
-            viewModel.postTweet(RequestCreateTweet(mensaje)).observe(viewLifecycleOwner){
+            viewModel.createTweet(RequestCreateTweet(mensaje)).observe(viewLifecycleOwner){
                 if(it != null) {
                     Toast.makeText(context,"El mensaje a sido posteado correctamente",Toast.LENGTH_SHORT).show()
                     dialog!!.dismiss()

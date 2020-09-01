@@ -36,11 +36,12 @@ class HomeActivity : AppCompatActivity() {
         if(savedInstanceState == null){
             supportActionBar!!.hide()
             init()
-            goToHomeTweets()
         }
     }
 
     private fun init(){
+
+        goToHomeTweets()
 
         setPicturePerfil()
 
@@ -70,23 +71,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeFragment2(tag:String, fragment:Fragment){
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.frameHome, fragment)
-            .commit()
-
-    }
-
-    private fun setPicturePerfil(){
-        val photoUrl = SharedPreferencesManager().getSomeStringValue(Constants.PREF_PHOTOURL)
-        if(photoUrl!!.isNotEmpty()){
-            Glide.with(this)
-                .load(Constants.PHOTO_URL + photoUrl)
-                .into(imgPerfilHome)
-        }
-    }
-
     private fun goToHomeTweets(){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(
@@ -97,26 +81,53 @@ class HomeActivity : AppCompatActivity() {
         transaction.commit()
     }
 
+
+    private fun setPicturePerfil(){
+        val photoUrl = SharedPreferencesManager().getSomeStringValue(Constants.PREF_PHOTOURL)
+        if(photoUrl!!.isNotEmpty()){
+            Glide.with(this)
+                .load(Constants.PHOTO_URL + photoUrl)
+                .into(imgPerfilHome)
+        }
+    }
+
     private fun changeFragment(tagToChange: String, fragment: Fragment){
+        if(currentTag != tagToChange){
+            val ft = supportFragmentManager.beginTransaction()
+            val currentFragment = supportFragmentManager.findFragmentByTag(currentTag)
+            val fragmentToReplaceByTag = supportFragmentManager.findFragmentByTag(tagToChange)
 
-        if(fragment == FavoriteFragment()){
+            oldTag = currentTag
+            currentTag = tagToChange
 
-        }else{
-            if(currentTag != tagToChange){
-                val ft = supportFragmentManager.beginTransaction()
-                val currentFragment = supportFragmentManager.findFragmentByTag(currentTag)
-                val fragmentToReplaceByTag = supportFragmentManager.findFragmentByTag(tagToChange)
+            if(fragmentToReplaceByTag != null)
+                currentFragment?.let{ ft.hide(it).show(fragmentToReplaceByTag)}
+            else
+                currentFragment?.let{ ft.hide(it).add(R.id.frameHome, fragment, tagToChange)}
 
-                oldTag = currentTag
-                currentTag = tagToChange
+            ft.commit()
+            addBackStack()
+        }
+    }
 
-                if(fragmentToReplaceByTag != null)
-                    currentFragment?.let{ ft.hide(it).show(fragmentToReplaceByTag)}
-                else
-                    currentFragment?.let{ ft.hide(it).add(R.id.frameHome, fragment, tagToChange)}
+    //Like youtube
+    private fun addBackStack(){
+        when(listState.size){
+            MAX_HISTORIC ->{
+                listState[1].oldFragment = TAG_ONE
+                val firstState = listState[1]
 
-                ft.commit()
-                addBackStack()
+                for(i in listState.indices){
+                    if(listState.indices.contains(i + 1)){
+                        listState[i] = listState[i + 1]
+                    }
+                }
+
+                listState[0] = firstState
+                listState[listState.lastIndex] = StateFragment(currentTag, oldTag)
+            }
+            else ->{
+                listState.add(StateFragment(currentTag, oldTag))
             }
         }
     }
@@ -165,27 +176,5 @@ class HomeActivity : AppCompatActivity() {
     private fun setMenuItem(menuItem: MenuItem){
         menuItem.isChecked = true
         currentMenuItem = menuItem.itemId
-    }
-
-    //Like youtube
-    private fun addBackStack(){
-        when(listState.size){
-            MAX_HISTORIC ->{
-                listState[1].oldFragment = TAG_ONE
-                val firstState = listState[1]
-
-                for(i in listState.indices){
-                    if(listState.indices.contains(i + 1)){
-                        listState[i] = listState[i + 1]
-                    }
-                }
-
-                listState[0] = firstState
-                listState[listState.lastIndex] = StateFragment(currentTag, oldTag)
-            }
-            else ->{
-                listState.add(StateFragment(currentTag, oldTag))
-            }
-        }
     }
 }

@@ -11,11 +11,12 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.MyApp
+import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_tweet_list.*
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(), ListenerHome {
 
     private val viewModel: HomeViewModel by viewModels()
     private val favAdapter = TweetAdapter()
@@ -48,6 +49,14 @@ class FavoriteFragment : Fragment() {
                 Toast.makeText(context, "Error al cargar los tweets", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun likePhoto(idTweet: Int) {
+
+    }
+
+    override fun deleteTweet(idTweet: Int) {
+
     }
 
     companion object {

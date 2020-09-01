@@ -16,4 +16,5 @@ object Constants{
     val TWEET_LIST_TYPE = "TWEET_LIST_TYPE"
     val TWEET_LIST_ALL = "ONE"
     val TWEET_LIST_FAVS = "TWO"
+    val ARG_TWEET_ID = "TWEET_ID"
 }

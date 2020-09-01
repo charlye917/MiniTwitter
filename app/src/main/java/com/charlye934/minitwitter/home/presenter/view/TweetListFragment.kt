@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_tweet_list.*
 class TweetListFragment : Fragment(), ListenerHome {
 
     private val viewModel:HomeViewModel by activityViewModels()
-    private val tweetAdapter = TweetAdapter()
+    private var tweetAdapter = TweetAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tweet_list, container, false)
@@ -54,7 +54,7 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     private fun loadTweetData(){
-        viewModel.getTweets().observe(viewLifecycleOwner) {
+        viewModel.getAllTweets().observe(viewLifecycleOwner) {
             if(it != null){
                 tweetAdapter.updateData(it, this)
                 refreshTweeList.isRefreshing = false
@@ -74,6 +74,10 @@ class TweetListFragment : Fragment(), ListenerHome {
                 Toast.makeText(context, "Problema al dar like", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun deleteTweet(idTweet: Int) {
+        viewModel.opneDialogTweetMenu(context, idTweet)
     }
 
     companion object {
