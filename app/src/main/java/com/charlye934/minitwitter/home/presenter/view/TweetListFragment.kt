@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_tweet_list.*
 class TweetListFragment : Fragment(), ListenerHome {
 
     private val viewModel:HomeViewModel by activityViewModels()
+    private var tweetList: List<Tweet> = arrayListOf()
     private var tweetAdapter = TweetAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,7 +43,7 @@ class TweetListFragment : Fragment(), ListenerHome {
 
         refreshTweeList.setOnRefreshListener {
             refreshTweeList.isRefreshing = true
-            loadTweetData()
+            loadNewData()
         }
     }
 
@@ -56,11 +57,25 @@ class TweetListFragment : Fragment(), ListenerHome {
     private fun loadTweetData(){
         viewModel.getAllTweets().observe(viewLifecycleOwner) {
             if(it != null){
-                tweetAdapter.updateData(it, this)
+                tweetList = it.value as ArrayList<Tweet>
+                tweetAdapter.updateData(tweetList, this)
                 refreshTweeList.isRefreshing = false
             }else{
                 Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
                 refreshTweeList.isRefreshing = false
+            }
+        }
+    }
+
+    private fun loadNewData(){
+        viewModel.getNewTweet().observe(viewLifecycleOwner){
+            if(it != null){
+                tweetList = it.value as ArrayList<Tweet>
+                refreshTweeList.isRefreshing = false
+                tweetAdapter.setData(tweetList)
+                viewModel.getNewTweet().removeObservers(viewLifecycleOwner)
+            }else{
+                Toast.makeText(context, "Problemas al cargar los tweets",Toast.LENGTH_SHORT).show()
             }
         }
     }

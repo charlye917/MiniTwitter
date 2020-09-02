@@ -13,13 +13,10 @@ import com.charlye934.minitwitter.home.domain.HomeInteractorImp
 import com.charlye934.minitwitter.home.presenter.view.BottomModalTweetFragment
 
 class HomeViewModel : ViewModel() {
-    private val homeInteractor:HomeInteractor = HomeInteractorImp()
-    private val allTweets = MutableLiveData<List<Tweet>>()
 
     fun getAllTweets() = liveData{
-        val response =  homeInteractor.getAllTwitts()
-        allTweets.value = response
-        emit(response)
+        allTweets!!.value = homeInteractor.getAllTweets()
+        emit(allTweets)
     }
 
     fun createTweet(requestCreateTweet: RequestCreateTweet) = liveData{
@@ -37,6 +34,15 @@ class HomeViewModel : ViewModel() {
         emit(response)
     }
 
+    fun getNewFavTweets(){
+
+    }
+
+    fun getNewTweet() = liveData{
+        allTweets!!.value = homeInteractor.getAllTweets()
+        emit(allTweets)
+    }
+
     fun deleteTweet(idTweet: Int) = liveData {
         val response = homeInteractor.deleteTweet(idTweet)
         emit(response)
@@ -46,5 +52,10 @@ class HomeViewModel : ViewModel() {
         val appCompact = context as AppCompatActivity
         val dialog = BottomModalTweetFragment.newInstance(idTweet)
         dialog.show(appCompact.supportFragmentManager, "BottomModalTweetFragment")
+    }
+
+    companion object{
+        private val homeInteractor:HomeInteractor = HomeInteractorImp()
+        private val allTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
     }
 }

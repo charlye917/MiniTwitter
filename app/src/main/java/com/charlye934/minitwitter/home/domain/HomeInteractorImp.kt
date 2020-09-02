@@ -18,7 +18,7 @@ class HomeInteractorImp : HomeInteractor {
     private var allTweet: MutableLiveData<List<Tweet>> = MutableLiveData()
     private var favTweets = MutableLiveData<List<Tweet>>()
 
-    override suspend fun getAllTwitts(): List<Tweet>?{
+    override suspend fun getAllTweets(): List<Tweet>?{
         return try {
             val response = homeRepository.getTwitts()
             allTweet.value = response
@@ -33,7 +33,7 @@ class HomeInteractorImp : HomeInteractor {
     override suspend fun getFavsTweets(): List<Tweet>? {
         Log.d("interactor",allTweet.toString())
         if(allTweet.value.isNullOrEmpty()){
-            allTweet.value = getAllTwitts()
+            allTweet.value = getAllTweets()
         }
 
         return try{
