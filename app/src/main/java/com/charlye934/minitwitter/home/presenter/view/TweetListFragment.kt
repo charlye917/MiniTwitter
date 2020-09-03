@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -31,11 +32,10 @@ class TweetListFragment : Fragment(), ListenerHome {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(savedInstanceState == null){
-            swipeRefresh()
-            recyclerData()
-            loadTweetData()
-        }
+        swipeRefresh()
+        recyclerData()
+        viewModel.getAllTweets()
+        loadTweetData()
     }
 
     private fun swipeRefresh(){
@@ -55,9 +55,11 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     private fun loadTweetData(){
-        viewModel.getAllTweets().observe(viewLifecycleOwner) {
+        HomeViewModel.allTweets!!.observe(viewLifecycleOwner) {
             if(it != null){
-                tweetList = it.value as ArrayList<Tweet>
+                tweetList = it
+                Log.d("LoadTweetDataNew",it.size.toString())
+
                 tweetAdapter.updateData(tweetList, this)
                 refreshTweeList.isRefreshing = false
             }else{
@@ -68,12 +70,12 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     private fun loadNewData(){
-        viewModel.getNewTweet().observe(viewLifecycleOwner){
+        HomeViewModel.allTweets!!.observe(viewLifecycleOwner){
             if(it != null){
-                tweetList = it.value as ArrayList<Tweet>
+                Log.d("LoadTweetDataNew",it.size.toString())
+                tweetList = it as ArrayList<Tweet>
                 refreshTweeList.isRefreshing = false
                 tweetAdapter.setData(tweetList)
-                viewModel.getNewTweet().removeObservers(viewLifecycleOwner)
             }else{
                 Toast.makeText(context, "Problemas al cargar los tweets",Toast.LENGTH_SHORT).show()
             }
@@ -92,7 +94,7 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     override fun deleteTweet(idTweet: Int) {
-        viewModel.opneDialogTweetMenu(context, idTweet)
+
     }
 
     companion object {

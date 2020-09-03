@@ -13,16 +13,17 @@ import java.lang.Exception
 
 class HomeInteractorImp : HomeInteractor {
 
-    private val homeRepository: HomeRepository = HomeRepositoryImp()
-    private val userName = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
-    private var allTweet: MutableLiveData<List<Tweet>> = MutableLiveData()
-    private var favTweets = MutableLiveData<List<Tweet>>()
+    companion object {
+        private val homeRepository: HomeRepository = HomeRepositoryImp()
+        private val userName = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
+        private var allTweet: MutableLiveData<List<Tweet>> = MutableLiveData()
+        private var favTweets = MutableLiveData<List<Tweet>>()
+    }
 
     override suspend fun getAllTweets(): List<Tweet>?{
         return try {
-            val response = homeRepository.getTwitts()
-            allTweet.value = response
-            response
+            allTweet.value = homeRepository.getTwitts()
+            allTweet.value
         }catch (e: Throwable){
             Log.d("Error","${e.message}")
             allTweet = MutableLiveData()
@@ -53,16 +54,24 @@ class HomeInteractorImp : HomeInteractor {
                     }
                 }
             }
-            newFavList
+            allTweet.value = newFavList
+            allTweet.value
 
         }catch (e:Throwable){
             null
         }
     }
 
-    override suspend fun createTweet(requestCreateTweet: RequestCreateTweet): Tweet? {
+    override suspend fun createTweet(mensaje: String): Tweet? {
         return try {
-            val response = homeRepository.createTweet(requestCreateTweet)
+            var listaClonada = arrayListOf<Tweet>()
+            val response = homeRepository.createTweet(mensaje)
+
+            listaClonada.add(response)
+            allTweet.value?.forEach {
+                listaClonada.add(it)
+            }
+            allTweet.value = listaClonada
             response
         }catch (e: Throwable){
             Log.d("Error","${e.message}")

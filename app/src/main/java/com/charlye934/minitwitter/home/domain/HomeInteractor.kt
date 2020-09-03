@@ -7,7 +7,7 @@ import com.charlye934.minitwitter.home.data.model.TweetDelete
 
 interface HomeInteractor {
         suspend fun getAllTweets(): List<Tweet>?
-        suspend fun createTweet(requestCreateTweet: RequestCreateTweet): Tweet?
+        suspend fun createTweet(mensaje: String): Tweet?
         suspend fun likeTweet(idTweet: Int): Tweet?
         suspend fun getFavsTweets():List<Tweet>?
         suspend fun deleteTweet(idTweet: Int): TweetDelete?

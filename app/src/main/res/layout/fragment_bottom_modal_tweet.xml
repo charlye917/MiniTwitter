@@ -9,12 +9,14 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view_bottom_tweet"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/navigation_view_tweet"/>
+        android:layout_gravity="start|left"
+        app:menu="@menu/navigation_view_tweet"
+        tools:ignore="RtlHardcoded" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

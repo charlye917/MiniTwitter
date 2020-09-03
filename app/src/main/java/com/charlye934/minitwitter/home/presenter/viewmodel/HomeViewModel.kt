@@ -2,25 +2,27 @@ package com.charlye934.minitwitter.home.presenter.viewmodel
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.domain.HomeInteractor
 import com.charlye934.minitwitter.home.domain.HomeInteractorImp
 import com.charlye934.minitwitter.home.presenter.view.BottomModalTweetFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    fun getAllTweets() = liveData{
-        allTweets!!.value = homeInteractor.getAllTweets()
-        emit(allTweets)
+    fun getAllTweets(){
+        CoroutineScope(Dispatchers.IO).launch {
+            allTweets!!.postValue(homeInteractor.getAllTweets())
+        }
     }
 
-    fun createTweet(requestCreateTweet: RequestCreateTweet) = liveData{
-        val dataTweet = homeInteractor.createTweet(requestCreateTweet)
+    fun insertTweet(mensaje: String) = liveData{
+        val dataTweet = homeInteractor.createTweet(mensaje)
         emit(dataTweet)
     }
 
@@ -30,17 +32,8 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getFavTweet() = liveData {
-        val response = homeInteractor.getFavsTweets()
-        emit(response)
-    }
-
-    fun getNewFavTweets(){
-
-    }
-
-    fun getNewTweet() = liveData{
-        allTweets!!.value = homeInteractor.getAllTweets()
-        emit(allTweets)
+        favTweets?.value = homeInteractor.getFavsTweets()
+        emit(favTweets?.value)
     }
 
     fun deleteTweet(idTweet: Int) = liveData {
@@ -49,13 +42,12 @@ class HomeViewModel : ViewModel() {
     }
 
     fun opneDialogTweetMenu(context: Context?, idTweet: Int){
-        val appCompact = context as AppCompatActivity
-        val dialog = BottomModalTweetFragment.newInstance(idTweet)
-        dialog.show(appCompact.supportFragmentManager, "BottomModalTweetFragment")
+
     }
 
     companion object{
         private val homeInteractor:HomeInteractor = HomeInteractorImp()
-        private val allTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
+        var allTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
+        private val favTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
     }
 }
