@@ -63,6 +63,12 @@ class HomeInteractorImp : HomeInteractor {
     override suspend fun createTweet(requestCreateTweet: RequestCreateTweet): Tweet? {
         return try {
             val response = homeRepository.createTweet(requestCreateTweet)
+            val listaClonada = arrayListOf<Tweet>()
+            listaClonada.add(response)
+            allTweet.value!!.forEach {
+                listaClonada.add(it)
+            }
+            allTweet.value = listaClonada
             response
         }catch (e: Throwable){
             Log.d("Error","${e.message}")
