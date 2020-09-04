@@ -52,8 +52,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         navigationHome.setOnNavigationItemSelectedListener{ menuItem ->
-            val fragmet = supportFragmentManager.findFragmentById(R.id.frameHome)
-
             when(menuItem.itemId){
                 R.id.navigation_home ->{
                     btnFloatHome.show()

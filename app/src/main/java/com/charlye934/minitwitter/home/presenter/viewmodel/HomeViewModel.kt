@@ -13,20 +13,19 @@ import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
-
-
     fun getAllTweets(): LiveData<List<Tweet>>{
         CoroutineScope(Dispatchers.Main).launch {
             val response = homeInteractor.getAllTweets()
             allTweets?.postValue(response)
-
         }
-        Log.d("viewmodel",allTweets!!.value.toString())
         return allTweets!!
     }
 
     fun insertTweet(mensaje: String) = liveData{
+        val newList:ArrayList<Tweet> = allTweets?.value as ArrayList<Tweet>
         val dataTweet = homeInteractor.createTweet(mensaje)
+        dataTweet?.let { newList.add(0,it) }
+        allTweets?.value = newList
         emit(dataTweet)
     }
 

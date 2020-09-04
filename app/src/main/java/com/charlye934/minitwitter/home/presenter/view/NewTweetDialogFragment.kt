@@ -64,9 +64,6 @@ class NewTweetDialogFragment : DialogFragment() {
         }else{
             viewModel.insertTweet( mensaje).observe(viewLifecycleOwner){
                 if(it != null) {
-                    val newList:ArrayList<Tweet> = HomeViewModel.allTweets?.value as ArrayList<Tweet>
-                    newList.add(0, it)
-                    HomeViewModel.allTweets!!.value = newList
                     Toast.makeText(context,"El mensaje a sido posteado correctamente",Toast.LENGTH_SHORT).show()
                     dialog!!.dismiss()
                 }else {
