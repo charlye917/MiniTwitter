@@ -55,7 +55,7 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     private fun loadTweetData(){
-        HomeViewModel.allTweets!!.observe(viewLifecycleOwner) {
+        viewModel.getTweets().observe(viewLifecycleOwner) {
             if(it != null){
                 tweetList = it
                 Log.d("LoadTweetDataNew",it.size.toString())
@@ -70,7 +70,7 @@ class TweetListFragment : Fragment(), ListenerHome {
     }
 
     private fun loadNewData(){
-        HomeViewModel.allTweets?.observe(viewLifecycleOwner){
+        viewModel.getTweets().observe(viewLifecycleOwner){
             if(it != null){
                 Log.d("LoadTweetDataNew",it.size.toString())
                 tweetList = it as ArrayList<Tweet>

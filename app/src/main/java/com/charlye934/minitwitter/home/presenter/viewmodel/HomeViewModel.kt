@@ -13,19 +13,22 @@ import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
-    fun getAllTweets(): LiveData<List<Tweet>>{
+    fun getAllTweets(): MutableLiveData<List<Tweet>?> {
         CoroutineScope(Dispatchers.Main).launch {
             val response = homeInteractor.getAllTweets()
             allTweets?.postValue(response)
         }
-        return allTweets!!
+        return allTweets
     }
 
+    fun getTweets(): MutableLiveData<List<Tweet>?> = allTweets
+
+
     fun insertTweet(mensaje: String) = liveData{
-        val newList:ArrayList<Tweet> = allTweets?.value as ArrayList<Tweet>
+        val newList:ArrayList<Tweet>? = allTweets.value as ArrayList<Tweet>
         val dataTweet = homeInteractor.createTweet(mensaje)
-        dataTweet?.let { newList.add(0,it) }
-        allTweets?.value = newList
+        dataTweet?.let { newList?.add(0, it) }
+        allTweets.value = newList
         emit(dataTweet)
     }
 
@@ -51,6 +54,6 @@ class HomeViewModel : ViewModel() {
     companion object{
         private val homeInteractor:HomeInteractor = HomeInteractorImp()
         private val favTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
-        var allTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
+        var allTweets:MutableLiveData<List<Tweet>?> = MutableLiveData()
     }
 }
