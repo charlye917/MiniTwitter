@@ -14,6 +14,7 @@ import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.presenter.view.FavoriteFragment
 import com.charlye934.minitwitter.home.presenter.view.NewTweetDialogFragment
 import com.charlye934.minitwitter.home.presenter.listener.StateFragment
+import com.charlye934.minitwitter.home.presenter.view.BottomModalTweetFragment
 import com.charlye934.minitwitter.home.presenter.view.TweetListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -57,6 +58,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_home ->{
                     btnFloatHome.show()
                     changeFragment(TAG_ONE, TweetListFragment.newInstance())
+
                 }
                 R.id.navigation_favs ->{
                     btnFloatHome.hide()
@@ -64,7 +66,11 @@ class HomeActivity : AppCompatActivity() {
                 }
                 R.id.navigation_notification ->{
                     btnFloatHome.hide()
-                    Toast.makeText(applicationContext, "notification",Toast.LENGTH_SHORT).show()
+                    val dialogTweet = BottomModalTweetFragment()
+                    dialogTweet.show(
+                        supportFragmentManager,
+                        "BottomModalTweetFragment"
+                    )
                 }
             }
             true

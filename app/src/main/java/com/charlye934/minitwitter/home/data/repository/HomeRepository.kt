@@ -7,7 +7,7 @@ import retrofit2.Response
 
 interface HomeRepository {
     suspend fun getTwitts():List<Tweet>
-    suspend fun createTweet(requestCreateTweet: RequestCreateTweet): Tweet
+    suspend fun createTweet(mensaje:String): Tweet
     suspend fun likeTweet(idTweet: Int): Tweet
     suspend fun deleteTweet(idTweet:Int): TweetDelete
 }

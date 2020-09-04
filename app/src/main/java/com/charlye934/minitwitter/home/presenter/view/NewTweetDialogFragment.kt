@@ -3,12 +3,14 @@ package com.charlye934.minitwitter.home.presenter.view
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
 import com.charlye934.minitwitter.R
@@ -36,7 +38,6 @@ class NewTweetDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setPhoto()
         eventos()
     }
@@ -61,8 +62,11 @@ class NewTweetDialogFragment : DialogFragment() {
         if(mensaje.isEmpty()){
             Toast.makeText(context,"Debe escribir un texto en el mensaje",Toast.LENGTH_SHORT).show()
         }else{
-            viewModel.createTweet(RequestCreateTweet(mensaje)).observe(viewLifecycleOwner){
+            viewModel.insertTweet( mensaje).observe(viewLifecycleOwner){
                 if(it != null) {
+                    val newList:ArrayList<Tweet> = HomeViewModel.allTweets?.value as ArrayList<Tweet>
+                    newList.add(0, it)
+                    HomeViewModel.allTweets!!.value = newList
                     Toast.makeText(context,"El mensaje a sido posteado correctamente",Toast.LENGTH_SHORT).show()
                     dialog!!.dismiss()
                 }else {

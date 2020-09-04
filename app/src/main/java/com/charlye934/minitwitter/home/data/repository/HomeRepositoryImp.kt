@@ -14,8 +14,8 @@ class HomeRepositoryImp : HomeRepository {
         return twitterClientService.getAllTweets()
     }
 
-    override suspend fun createTweet(requestCreateTweet: RequestCreateTweet): Tweet {
-        return twitterClientService.createTweet(requestCreateTweet)
+    override suspend fun createTweet(mensaje: String): Tweet {
+        return twitterClientService.createTweet(RequestCreateTweet(mensaje))
     }
 
     override suspend fun likeTweet(idTweet: Int): Tweet {
