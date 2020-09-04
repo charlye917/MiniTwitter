@@ -33,7 +33,6 @@ class FavoriteFragment : Fragment(), ListenerHome {
         swipeRefresh()
         recyclerData()
         loadFavData()
-
     }
 
     private fun swipeRefresh(){
@@ -53,7 +52,7 @@ class FavoriteFragment : Fragment(), ListenerHome {
     }
 
     private fun loadFavData(){
-        viewModel.getFavTweet().observe(viewLifecycleOwner){
+        viewModel.getFavTweet()?.observe(viewLifecycleOwner){
             if(it != null){
                 listFavData = it as ArrayList<Tweet>
                 favAdapter.updateData(listFavData,this)
@@ -64,7 +63,7 @@ class FavoriteFragment : Fragment(), ListenerHome {
     }
 
     private fun loadNewFavData(){
-        viewModel.getFavTweet().observe(viewLifecycleOwner){
+        viewModel.getFavTweet()?.observe(viewLifecycleOwner){
             if(it != null){
                 listFavData = it as ArrayList<Tweet>
                 refreshFavoritesList.isRefreshing = false
@@ -75,7 +74,7 @@ class FavoriteFragment : Fragment(), ListenerHome {
         }
     }
 
-    override fun likePhoto(idTweet: Int) {
+    override fun likeTweet(idTweet: Int) {
         viewModel.likeTweet(idTweet).observe(viewLifecycleOwner){
             if(it != null){
                 Toast.makeText(context, "Le dio like", Toast.LENGTH_SHORT).show()

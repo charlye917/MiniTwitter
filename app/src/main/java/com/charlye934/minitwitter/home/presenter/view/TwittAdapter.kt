@@ -1,5 +1,6 @@
 package com.charlye934.minitwitter.home.presenter.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
@@ -25,7 +26,6 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
     private val context = MyApp.getContext()
 
     fun updateData(newTweet:List<Tweet>, listenerHome: ListenerHome){
-        Log.d("adapter",listTweet.toString())
         listener = listenerHome
         listTweet.clear()
         listTweet.addAll(newTweet)
@@ -33,7 +33,6 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
     }
 
     fun setData(tweetList: List<Tweet>){
-        Log.d("adapter2",listTweet.toString())
         listTweet.clear()
         listTweet.addAll(tweetList)
         notifyDataSetChanged()
@@ -44,6 +43,7 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         return TwitterViewHolder(item)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TwitterViewHolder, position: Int) {
         val item = listTweet[position]
 
@@ -73,11 +73,11 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         }
 
         holder.imgLike.setOnClickListener {
-            listener.likePhoto(item.id)
+            listener.likeTweet(item.id)
         }
 
         item.likes.forEach{
-            if(it.username!!.equals(username)){
+            if(it.username!! == username){
                 Glide.with(context)
                     .load(R.drawable.ic_like_pink)
                     .into(holder.imgLike)
