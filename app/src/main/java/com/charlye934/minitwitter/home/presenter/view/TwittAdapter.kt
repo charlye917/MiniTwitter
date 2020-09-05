@@ -25,7 +25,6 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
     private val context = MyApp.getContext()
 
     fun updateData(newTweet:List<Tweet>, listenerHome: ListenerHome){
-        Log.d("adapter",listTweet.toString())
         listener = listenerHome
         listTweet.clear()
         listTweet.addAll(newTweet)
@@ -33,7 +32,6 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
     }
 
     fun setData(tweetList: List<Tweet>){
-        Log.d("adapter2",listTweet.toString())
         listTweet.clear()
         listTweet.addAll(tweetList)
         notifyDataSetChanged()

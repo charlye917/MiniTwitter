@@ -13,16 +13,11 @@ import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
-
-
-    fun getAllTweets(): LiveData<List<Tweet>>{
+    fun getAllTweets(){
         CoroutineScope(Dispatchers.Main).launch {
             val response = homeInteractor.getAllTweets()
             allTweets?.postValue(response)
-
         }
-        Log.d("viewmodel",allTweets!!.value.toString())
-        return allTweets!!
     }
 
     fun insertTweet(mensaje: String) = liveData{

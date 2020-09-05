@@ -23,14 +23,12 @@ class HomeInteractorImp : HomeInteractor {
             allTweet.value = homeRepository.getTwitts()
             allTweet.value
         }catch (e: Throwable){
-            Log.d("Error","${e.message}")
             allTweet = MutableLiveData()
             null
         }
     }
 
     override suspend fun getFavsTweets(): List<Tweet>? {
-        Log.d("interactor",allTweet.toString())
         if(allTweet.value.isNullOrEmpty()){
             allTweet.value = getAllTweets()
         }
@@ -97,6 +95,11 @@ class HomeInteractorImp : HomeInteractor {
 
     override suspend fun likeTweet(idTweet: Int): Tweet? {
         return try {
+            val listaClonada = ArrayList<Tweet>()
+            allTweet.value!!.forEach {
+                if(it.id.equals(userName))
+                    listaClonada.add(it)
+            }
             val response = homeRepository.likeTweet(idTweet)
             response
         }catch (e: Throwable){

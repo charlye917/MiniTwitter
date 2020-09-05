@@ -40,7 +40,6 @@ class TweetListFragment : Fragment(), ListenerHome {
 
     private fun swipeRefresh(){
         refreshTweeList.setColorSchemeColors(resources.getColor(R.color.colorAzul))
-
         refreshTweeList.setOnRefreshListener {
             refreshTweeList.isRefreshing = true
             loadNewData()
@@ -58,8 +57,6 @@ class TweetListFragment : Fragment(), ListenerHome {
         HomeViewModel.allTweets!!.observe(viewLifecycleOwner) {
             if(it != null){
                 tweetList = it
-                Log.d("LoadTweetDataNew",it.size.toString())
-
                 tweetAdapter.updateData(tweetList, this)
                 refreshTweeList.isRefreshing = false
             }else{
@@ -72,7 +69,6 @@ class TweetListFragment : Fragment(), ListenerHome {
     private fun loadNewData(){
         HomeViewModel.allTweets?.observe(viewLifecycleOwner){
             if(it != null){
-                Log.d("LoadTweetDataNew",it.size.toString())
                 tweetList = it as ArrayList<Tweet>
                 refreshTweeList.isRefreshing = false
                 tweetAdapter.setData(tweetList)
@@ -86,7 +82,7 @@ class TweetListFragment : Fragment(), ListenerHome {
         viewModel.likeTweet(idTweet).observe(viewLifecycleOwner){
             if(it != null){
                 Toast.makeText(context, "Le dio like", Toast.LENGTH_SHORT).show()
-                loadTweetData()
+                loadNewData()
             }else{
                 Toast.makeText(context, "Problema al dar like", Toast.LENGTH_SHORT).show()
             }
