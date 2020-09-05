@@ -1,5 +1,7 @@
 package com.charlye934.minitwitter.home.presenter.view
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
@@ -12,6 +14,7 @@ import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.MyApp
 import com.charlye934.minitwitter.common.SharedPreferencesManager
+import com.charlye934.minitwitter.home.HomeActivity
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
@@ -31,17 +34,12 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         notifyDataSetChanged()
     }
 
-    fun setData(tweetList: List<Tweet>){
-        listTweet.clear()
-        listTweet.addAll(tweetList)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TwitterViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.item_tweet,parent, false)
         return TwitterViewHolder(item)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TwitterViewHolder, position: Int) {
         val item = listTweet[position]
 
@@ -71,11 +69,12 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         }
 
         holder.imgLike.setOnClickListener {
-            listener.likePhoto(item.id)
+            listener.likeTweet(item.id)
         }
 
         item.likes.forEach{
-            if(it.username!!.equals(username)){
+            if(it.username!! == username){
+                Log.d("tweetLike",it.toString())
                 Glide.with(context)
                     .load(R.drawable.ic_like_pink)
                     .into(holder.imgLike)
@@ -95,5 +94,4 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         val tvLikeCount = item.tvCountLikes
         val imgShowMenu = item.imgShowMenuItemTweet
     }
-
 }

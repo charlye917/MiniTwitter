@@ -6,6 +6,7 @@ import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.data.model.TweetDelete
 
 interface HomeInteractor {
+        fun getTweet():MutableLiveData<List<Tweet>>
         suspend fun getAllTweets(): List<Tweet>?
         suspend fun createTweet(mensaje: String): Tweet?
         suspend fun likeTweet(idTweet: Int): Tweet?

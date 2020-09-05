@@ -5,17 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
+import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.view.FavoriteFragment
 import com.charlye934.minitwitter.home.presenter.view.NewTweetDialogFragment
 import com.charlye934.minitwitter.home.presenter.listener.StateFragment
 import com.charlye934.minitwitter.home.presenter.view.BottomModalTweetFragment
 import com.charlye934.minitwitter.home.presenter.view.TweetListFragment
+import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 
 private val TAG_ONE = Constants.TWEET_LIST_ALL
@@ -23,12 +28,13 @@ private val TAG_TWO = Constants.TWEET_LIST_FAVS
 private const val TAG_THREE = "THREE"
 private const val MAX_HISTORIC = 4
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), ListenerHome {
 
     private val listState = mutableListOf<StateFragment>()
     private var currentTag = TAG_ONE
     private var oldTag = TAG_ONE
     private var currentMenuItem = R.id.navigationHome
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +58,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         navigationHome.setOnNavigationItemSelectedListener{ menuItem ->
-            val fragmet = supportFragmentManager.findFragmentById(R.id.frameHome)
-
             when(menuItem.itemId){
                 R.id.navigation_home ->{
                     btnFloatHome.show()
@@ -95,6 +99,20 @@ class HomeActivity : AppCompatActivity() {
                 .load(Constants.PHOTO_URL + photoUrl)
                 .into(imgPerfilHome)
         }
+    }
+
+    override fun likeTweet(idTweet: Int) {
+        viewModel.likeTweet(idTweet).observe(this){
+            if(it != null){
+                Toast.makeText(this, "Le dio like", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Problema al dar like", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun deleteTweet(idTweet: Int) {
+
     }
 
     private fun changeFragment(tagToChange: String, fragment: Fragment){

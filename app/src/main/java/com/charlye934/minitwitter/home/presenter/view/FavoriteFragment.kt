@@ -1,5 +1,6 @@
 package com.charlye934.minitwitter.home.presenter.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,18 +11,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charlye934.minitwitter.R
-import com.charlye934.minitwitter.common.MyApp
+import com.charlye934.minitwitter.home.HomeActivity
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_favorite.*
-import kotlinx.android.synthetic.main.fragment_tweet_list.*
 
-class FavoriteFragment : Fragment(), ListenerHome {
+class FavoriteFragment : Fragment(){
 
     private val viewModel: HomeViewModel by viewModels()
     private val favAdapter = TweetAdapter()
     private var listFavData = arrayListOf<Tweet>()
+    private lateinit var listener: ListenerHome
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_favorite, container, false)
@@ -33,7 +34,6 @@ class FavoriteFragment : Fragment(), ListenerHome {
         swipeRefresh()
         recyclerData()
         loadFavData()
-
     }
 
     private fun swipeRefresh(){
@@ -41,7 +41,7 @@ class FavoriteFragment : Fragment(), ListenerHome {
 
         refreshFavoritesList.setOnRefreshListener {
             refreshFavoritesList.isRefreshing = true
-            loadNewFavData()
+            loadFavData()
         }
     }
 
@@ -56,38 +56,17 @@ class FavoriteFragment : Fragment(), ListenerHome {
         viewModel.getFavTweet().observe(viewLifecycleOwner){
             if(it != null){
                 listFavData = it as ArrayList<Tweet>
-                favAdapter.updateData(listFavData,this)
+                favAdapter.updateData(listFavData, listener)
+                refreshFavoritesList.isRefreshing = false
             }else{
                 Toast.makeText(context, "Error al cargar los tweets", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun loadNewFavData(){
-        viewModel.getFavTweet().observe(viewLifecycleOwner){
-            if(it != null){
-                listFavData = it as ArrayList<Tweet>
-                refreshFavoritesList.isRefreshing = false
-                favAdapter.setData(listFavData)
-            }else{
-                Toast.makeText(context,"problema al dar like",Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    override fun likePhoto(idTweet: Int) {
-        viewModel.likeTweet(idTweet).observe(viewLifecycleOwner){
-            if(it != null){
-                Toast.makeText(context, "Le dio like", Toast.LENGTH_SHORT).show()
-                loadFavData()
-            }else{
-                Toast.makeText(context, "Problema al dar like", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    override fun deleteTweet(idTweet: Int) {
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = activity as HomeActivity
     }
 
     companion object {

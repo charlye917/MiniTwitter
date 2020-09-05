@@ -1,8 +1,6 @@
 package com.charlye934.minitwitter.home.presenter.viewmodel
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -13,12 +11,16 @@ import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
 
-    fun getAllTweets(){
+    fun getAllTweets(): MutableLiveData<List<Tweet>?> {
         CoroutineScope(Dispatchers.Main).launch {
             val response = homeInteractor.getAllTweets()
-            allTweets?.postValue(response)
+            allTweets.postValue(response)
         }
+        return allTweets
     }
+
+    fun getTweets(): MutableLiveData<List<Tweet>> = homeInteractor.getTweet()
+
 
     fun insertTweet(mensaje: String) = liveData{
         val dataTweet = homeInteractor.createTweet(mensaje)
@@ -27,12 +29,16 @@ class HomeViewModel : ViewModel() {
 
     fun likeTweet(idTweet: Int) = liveData{
         val response = homeInteractor.likeTweet(idTweet)
+        getFavTweet()
         emit(response)
     }
 
-    fun getFavTweet() = liveData {
-        favTweets?.value = homeInteractor.getFavsTweets()
-        emit(favTweets?.value)
+    fun getFavTweet(): MutableLiveData<List<Tweet>?> {
+        CoroutineScope(Dispatchers.Main).launch{
+            val response = homeInteractor.getFavsTweets()
+            favTweet.postValue(response)
+        }
+        return favTweet
     }
 
     fun deleteTweet(idTweet: Int) = liveData {
@@ -46,7 +52,7 @@ class HomeViewModel : ViewModel() {
 
     companion object{
         private val homeInteractor:HomeInteractor = HomeInteractorImp()
-        private val favTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
-        var allTweets:MutableLiveData<List<Tweet>>? = MutableLiveData()
+        private var allTweets:MutableLiveData<List<Tweet>?> = MutableLiveData()
+        private var favTweet:MutableLiveData<List<Tweet>?> = MutableLiveData()
     }
 }

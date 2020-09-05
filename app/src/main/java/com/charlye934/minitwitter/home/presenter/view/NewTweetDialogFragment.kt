@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
-import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.new_tweet_dialog.*
 
@@ -29,17 +28,18 @@ class NewTweetDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.new_tweet_dialog, container, false)
-        return view
+        return inflater.inflate(R.layout.new_tweet_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setPhoto()
+
         eventos()
     }
 
     private fun eventos(){
+        setPhoto()
+
         btnTwitterTweetDialog.setOnClickListener { sendTweet() }
         imgViewCloseTwittDialog.setOnClickListener { closeDialog() }
     }
@@ -57,17 +57,22 @@ class NewTweetDialogFragment : DialogFragment() {
         val mensaje = etTextMessageTweetDialog.text.toString()
 
         if(mensaje.isEmpty()){
-            Toast.makeText(context,"Debe escribir un texto en el mensaje",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Debe escribir un texto en el mensaje", Toast.LENGTH_SHORT).show()
         }else{
-            viewModel.insertTweet( mensaje).observe(viewLifecycleOwner){
+            viewModel.insertTweet(mensaje).observe(viewLifecycleOwner){
                 if(it != null) {
-                    val newList:ArrayList<Tweet> = HomeViewModel.allTweets?.value as ArrayList<Tweet>
-                    newList.add(0, it)
-                    HomeViewModel.allTweets!!.value = newList
-                    Toast.makeText(context,"El mensaje a sido posteado correctamente",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "El mensaje a sido posteado correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     dialog!!.dismiss()
                 }else {
-                    Toast.makeText(context,"Problemas al enviar el mensaje intentelo mas tarde",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Problemas al enviar el mensaje intentelo mas tarde",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -86,11 +91,11 @@ class NewTweetDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(context)
         builder.setMessage("¿Desea realmente elminar el tweet? El mensaje se borrara")
             .setTitle("Cancelar Tweet")
-            .setPositiveButton("Eliminar", DialogInterface.OnClickListener{ dialog, _ ->
+            .setPositiveButton("Eliminar", DialogInterface.OnClickListener { dialog, _ ->
                 dialog!!.dismiss()
                 getDialog()!!.dismiss()
             })
-            .setNegativeButton("Cancelar", DialogInterface.OnClickListener{ dialog, _ ->
+            .setNegativeButton("Cancelar", DialogInterface.OnClickListener { dialog, _ ->
                 dialog.dismiss()
             }).create()
 
