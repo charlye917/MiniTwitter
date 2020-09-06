@@ -75,7 +75,7 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationHome"
-            app:labelVisibilityMode="unlabeled"
+            app:labelVisibilityMode="auto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?android:attr/windowBackground"

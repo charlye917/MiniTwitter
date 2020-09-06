@@ -37,11 +37,13 @@ class BottomModalTweetFragment : BottomSheetDialogFragment() {
 
     private fun init(){
         navigation_view_bottom_tweet.setNavigationItemSelectedListener {
-            var id = it.itemId
+            val id = it.itemId
             if(id == R.id.action_delete_tweet){
                 viewModel.deleteTweet(idTweetDelete).observe(viewLifecycleOwner){
-                    if(it != null)
+                    if(it != null){
                         Toast.makeText(context,"Tweet eliminado",Toast.LENGTH_SHORT).show()
+                        dialog!!.dismiss()
+                    }
                     else{
                         Toast.makeText(context, "Error al borrar el tweet",Toast.LENGTH_SHORT).show()
                     }
@@ -58,6 +60,7 @@ class BottomModalTweetFragment : BottomSheetDialogFragment() {
             val fragment = BottomModalTweetFragment()
             val args = Bundle()
             args.putInt(Constants.ARG_TWEET_ID, idTweet)
+            fragment.arguments = args
             return fragment
         }
     }

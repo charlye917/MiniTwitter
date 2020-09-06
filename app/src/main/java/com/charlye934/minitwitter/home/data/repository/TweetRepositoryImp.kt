@@ -4,9 +4,8 @@ import com.charlye934.minitwitter.common.MiniTwitterClient
 import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
 import com.charlye934.minitwitter.home.data.model.Tweet
 import com.charlye934.minitwitter.home.data.model.TweetDelete
-import retrofit2.Response
 
-class HomeRepositoryImp : HomeRepository {
+class TweetRepositoryImp : TweetRepository {
 
     private val twitterClientService = MiniTwitterClient.authTwitterClient()
 

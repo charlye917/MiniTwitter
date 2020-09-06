@@ -1,31 +1,25 @@
 package com.charlye934.minitwitter.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
-import com.charlye934.minitwitter.home.presenter.view.FavoriteFragment
-import com.charlye934.minitwitter.home.presenter.view.NewTweetDialogFragment
 import com.charlye934.minitwitter.home.presenter.listener.StateFragment
-import com.charlye934.minitwitter.home.presenter.view.BottomModalTweetFragment
-import com.charlye934.minitwitter.home.presenter.view.TweetListFragment
+import com.charlye934.minitwitter.home.presenter.view.*
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 
 private val TAG_ONE = Constants.TWEET_LIST_ALL
 private val TAG_TWO = Constants.TWEET_LIST_FAVS
-private const val TAG_THREE = "THREE"
+private val TAG_THREE = Constants.TWEET_LIST_PROFILE
 private const val MAX_HISTORIC = 4
 
 class HomeActivity : AppCompatActivity(), ListenerHome {
@@ -59,22 +53,18 @@ class HomeActivity : AppCompatActivity(), ListenerHome {
 
         navigationHome.setOnNavigationItemSelectedListener{ menuItem ->
             when(menuItem.itemId){
-                R.id.navigation_home ->{
+                R.id.navigation_home -> {
                     btnFloatHome.show()
                     changeFragment(TAG_ONE, TweetListFragment.newInstance())
 
                 }
-                R.id.navigation_favs ->{
+                R.id.navigation_favs -> {
                     btnFloatHome.hide()
                     changeFragment(TAG_TWO, FavoriteFragment.newInstance())
                 }
-                R.id.navigation_notification ->{
+                R.id.navigation_notification -> {
                     btnFloatHome.hide()
-                    val dialogTweet = BottomModalTweetFragment()
-                    dialogTweet.show(
-                        supportFragmentManager,
-                        "BottomModalTweetFragment"
-                    )
+                    changeFragment(TAG_THREE, PerfilFragment.newInstances())
                 }
             }
             true
@@ -112,7 +102,11 @@ class HomeActivity : AppCompatActivity(), ListenerHome {
     }
 
     override fun deleteTweet(idTweet: Int) {
-
+        val dialogTweet = BottomModalTweetFragment.newInstance(idTweet)
+        dialogTweet.show(
+            supportFragmentManager,
+            "BottomModalTweetFragment"
+        )
     }
 
     private fun changeFragment(tagToChange: String, fragment: Fragment){
@@ -137,12 +131,12 @@ class HomeActivity : AppCompatActivity(), ListenerHome {
     //Like youtube
     private fun addBackStack(){
         when(listState.size){
-            MAX_HISTORIC ->{
+            MAX_HISTORIC -> {
                 listState[1].oldFragment = TAG_ONE
                 val firstState = listState[1]
 
-                for(i in listState.indices){
-                    if(listState.indices.contains(i + 1)){
+                for (i in listState.indices) {
+                    if (listState.indices.contains(i + 1)) {
                         listState[i] = listState[i + 1]
                     }
                 }
@@ -186,7 +180,7 @@ class HomeActivity : AppCompatActivity(), ListenerHome {
         }
 
         //Remove from Stack
-        listState.removeAt(listState.size -1)
+        listState.removeAt(listState.size - 1)
 
         if(listState.isEmpty()){
             currentTag = TAG_ONE

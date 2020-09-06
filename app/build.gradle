@@ -39,7 +39,7 @@ ext{
     gsonVersion = "2.8.6"
     rxVersion = "3.0.0"
     viewModelVersion = "2.2.0"
-    materialDesigne = "1.2.0"
+    materialDesigne = "1.2.0-alpha02"
 }
 
 dependencies {
