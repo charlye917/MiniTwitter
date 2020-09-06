@@ -62,7 +62,10 @@ class HomeViewModel : ViewModel() {
         emit(userProfile.value)
     }
 
-
+    fun uploadPhoto(photo: String) = liveData{
+        val response = profileInteractor.uploadProfilePhoto(photo)
+        emit(response)
+    }
 
     companion object{
         private val tweetInteractor:TweetInteractor = TweetInteractorImp()

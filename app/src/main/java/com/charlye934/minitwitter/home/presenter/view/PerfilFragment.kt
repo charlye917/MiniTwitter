@@ -9,15 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.home.data.model.RequestUserProfile
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.listener.single.CompositePermissionListener
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.fragment_perfil.*
+import java.util.jar.Manifest
 
 class PerfilFragment : Fragment() {
 
     private val viewModel:HomeViewModel by activityViewModels()
+    private lateinit var allPermission: PermissionListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +49,11 @@ class PerfilFragment : Fragment() {
         }
 
         btnModifyPassPerfil.setOnClickListener {
-            
+            Toast.makeText(activity, "Click on save", Toast.LENGTH_SHORT).show()
+        }
+
+        imgViewAvatarProfile.setOnClickListener {
+            checkPermission()
         }
     }
 
@@ -56,6 +67,9 @@ class PerfilFragment : Fragment() {
                 if(it.photoUrl!!.isNotEmpty()){
                     Glide.with(requireActivity())
                         .load(Constants.PHOTO_URL + it.photoUrl)
+                        .dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(imgViewAvatarProfile)
                 }
                 btnGuardarPerfil.isEnabled = true
@@ -95,6 +109,37 @@ class PerfilFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun uploadPhoto(){
+        viewModel.uploadPhoto("").observe(viewLifecycleOwner){
+            if(it != null){
+
+            }else{
+                Toast.makeText(context, "Erro al cargar la foto", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun checkPermission(){
+        val dialogOnDeniedPermissionListener =
+            DialogOnDeniedPermissionListener.Builder
+                .withContext(context)
+                .withTitle("Permisos")
+                .withMessage("Los permisos solicitados son necesarios para poder seleccionar una foto de perfil")
+                .withButtonText("Aceptar")
+                .withIcon(R.mipmap.ic_launcher)
+                .build()
+
+        allPermission = CompositePermissionListener(
+            activity as PermissionListener?,
+            dialogOnDeniedPermissionListener
+        )
+
+        Dexter.withActivity(activity)
+            .withPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(allPermission)
+            .check()
     }
 
     companion object{

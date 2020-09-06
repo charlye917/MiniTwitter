@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
@@ -15,6 +16,11 @@ import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
 import com.charlye934.minitwitter.home.presenter.listener.StateFragment
 import com.charlye934.minitwitter.home.presenter.view.*
 import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_home.*
 
 private val TAG_ONE = Constants.TWEET_LIST_ALL
@@ -22,7 +28,7 @@ private val TAG_TWO = Constants.TWEET_LIST_FAVS
 private val TAG_THREE = Constants.TWEET_LIST_PROFILE
 private const val MAX_HISTORIC = 4
 
-class HomeActivity : AppCompatActivity(), ListenerHome {
+class HomeActivity : AppCompatActivity(), ListenerHome, PermissionListener{
 
     private val listState = mutableListOf<StateFragment>()
     private var currentTag = TAG_ONE
@@ -87,6 +93,9 @@ class HomeActivity : AppCompatActivity(), ListenerHome {
         if(photoUrl!!.isNotEmpty()){
             Glide.with(this)
                 .load(Constants.PHOTO_URL + photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
+                .skipMemoryCache(true)
                 .into(imgPerfilHome)
         }
     }
@@ -194,5 +203,21 @@ class HomeActivity : AppCompatActivity(), ListenerHome {
     private fun setMenuItem(menuItem: MenuItem){
         menuItem.isChecked = true
         currentMenuItem = menuItem.itemId
+    }
+
+    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+        // Invocamos la selección de fotos de la galería
+    }
+
+    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+        Toast.makeText(this, "No se puede seleccionar la fotografía", Toast.LENGTH_SHORT).show()
+
+    }
+
+    override fun onPermissionRationaleShouldBeShown(
+        permission: PermissionRequest?,
+        token: PermissionToken?
+    ) {
+
     }
 }

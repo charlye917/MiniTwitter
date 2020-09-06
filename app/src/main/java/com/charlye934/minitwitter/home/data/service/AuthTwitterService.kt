@@ -1,6 +1,7 @@
 package com.charlye934.minitwitter.home.data.service
 
 import com.charlye934.minitwitter.home.data.model.*
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface AuthTwitterService {
@@ -22,4 +23,8 @@ interface AuthTwitterService {
 
     @PUT("users/profile")
     suspend fun updateProfile(@Body requestProfile: RequestUserProfile): ResponseUserProfile
+
+    @Multipart
+    @POST("/users/uploadprofilephoto")
+    suspend fun uploadProfilePhoto(@Part("file\"; filename=\"photo.jpeg\" ") file:RequestBody): ResponseUploadPhoto
 }

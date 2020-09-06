@@ -1,108 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".home.presenter.view.PerfilFragment">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgViewAvatarProfile"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toTopOf="@+id/etUserNameProfile"
-        app:layout_constraintEnd_toEndOf="@+id/etUserNameProfile"
-        app:layout_constraintStart_toStartOf="@+id/etUserNameProfile"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/etUserNameProfile"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Nombre de usuario"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/etEmailPerfil"
-        app:layout_constraintEnd_toEndOf="@+id/etEmailPerfil"
-        app:layout_constraintStart_toStartOf="@+id/etEmailPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/imgViewAvatarProfile"
-        tools:ignore="Autofill,MissingConstraints" />
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/etEmailPerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/etWebSitePerfil"
-        app:layout_constraintEnd_toEndOf="@+id/etWebSitePerfil"
-        app:layout_constraintStart_toStartOf="@+id/etWebSitePerfil"
-        app:layout_constraintTop_toBottomOf="@+id/etUserNameProfile" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgViewAvatarProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toTopOf="@+id/etUserNameProfile"
+            app:layout_constraintEnd_toEndOf="@+id/etUserNameProfile"
+            app:layout_constraintStart_toStartOf="@+id/etUserNameProfile"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/etWebSitePerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Website"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/etDescPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/etEmailPerfil" />
+        <EditText
+            android:id="@+id/etUserNameProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="Nombre de usuario"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/etEmailPerfil"
+            app:layout_constraintEnd_toEndOf="@+id/etEmailPerfil"
+            app:layout_constraintStart_toStartOf="@+id/etEmailPerfil"
+            app:layout_constraintTop_toBottomOf="@+id/imgViewAvatarProfile"
+            tools:ignore="Autofill,MissingConstraints" />
 
-    <EditText
-        android:id="@+id/etDescPerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Descripcion e interes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@+id/etWebSitePerfil" />
+        <EditText
+            android:id="@+id/etEmailPerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toTopOf="@+id/etWebSitePerfil"
+            app:layout_constraintEnd_toEndOf="@+id/etWebSitePerfil"
+            app:layout_constraintStart_toStartOf="@+id/etWebSitePerfil"
+            app:layout_constraintTop_toBottomOf="@+id/etUserNameProfile" />
 
-    <EditText
-        android:id="@+id/etPasswordPerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Contraseña actual"
-        android:inputType="textPassword"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescPerfil" />
+        <EditText
+            android:id="@+id/etWebSitePerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Website"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/etDescPerfil"
+            app:layout_constraintTop_toBottomOf="@+id/etEmailPerfil" />
 
-    <Button
-        android:id="@+id/btnGuardarPerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Guardar"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordPerfil" />
+        <EditText
+            android:id="@+id/etDescPerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Descripcion e interes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            app:layout_constraintTop_toBottomOf="@+id/etWebSitePerfil" />
 
-    <Button
-        android:id="@+id/btnModifyPassPerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Modificar Contraseña"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGuardarPerfil" />
+        <EditText
+            android:id="@+id/etPasswordPerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Contraseña actual"
+            android:inputType="textPassword"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDescPerfil" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnGuardarPerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Guardar"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPasswordPerfil" />
+
+        <Button
+            android:id="@+id/btnModifyPassPerfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Modificar Contraseña"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnGuardarPerfil" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

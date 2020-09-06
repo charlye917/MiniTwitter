@@ -12,7 +12,7 @@ data class RequestUserProfile(
     @Expose
     val email:String,
 
-    @SerializedName("description")
+    @SerializedName("descripcion")
     @Expose
     val description:String,
 
