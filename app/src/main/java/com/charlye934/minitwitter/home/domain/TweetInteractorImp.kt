@@ -48,14 +48,12 @@ class TweetInteractorImp : TweetInteractor {
     override suspend fun likeTweet(idTweet: Int): Tweet? {
         return try {
             val listaClonada = arrayListOf<Tweet>()
-            val listaFav = arrayListOf<Tweet>()
             val response = tweetRepository.likeTweet(idTweet)
 
             allTweet.value?.forEach {
                 if(it.id == idTweet){
                     //reemplzamos la infromacion del viejo tweet con la que ahora le dimos like
                     listaClonada.add(response)
-                    listaFav.add(response)
                 }
 
                 else

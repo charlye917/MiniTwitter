@@ -1,6 +1,8 @@
 package com.charlye934.minitwitter.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -206,7 +208,8 @@ class HomeActivity : AppCompatActivity(), ListenerHome, PermissionListener{
     }
 
     override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-        // Invocamos la selección de fotos de la galería
+        val seleccionarFoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(seleccionarFoto, Constants.SELECT_PHOTO_GALLERY)
     }
 
     override fun onPermissionDenied(response: PermissionDeniedResponse?) {

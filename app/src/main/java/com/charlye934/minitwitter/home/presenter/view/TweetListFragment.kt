@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -60,6 +61,7 @@ class TweetListFragment : Fragment() {
                 tweetList = it as ArrayList<Tweet>
                 tweetAdapter.updateData(tweetList, listener)
                 refreshTweeList.isRefreshing = false
+                lottieAnimationTweetList.isVisible = false
             }else{
                 Toast.makeText(context, "Error al cargar los tweets",Toast.LENGTH_SHORT).show()
                 refreshTweeList.isRefreshing = false

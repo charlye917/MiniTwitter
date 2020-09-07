@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,6 +59,7 @@ class FavoriteFragment : Fragment(){
                 listFavData = it as ArrayList<Tweet>
                 favAdapter.updateData(listFavData, listener)
                 refreshFavoritesList.isRefreshing = false
+                lottieAnimationFavoritos.isVisible = false
             }else{
                 Toast.makeText(context, "Error al cargar los tweets", Toast.LENGTH_SHORT).show()
             }
