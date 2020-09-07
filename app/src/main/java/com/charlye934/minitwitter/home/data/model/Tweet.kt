@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class Tweet(
     @SerializedName("id")
     @Expose
-    val id: Tweet,
+    val id: Int,
 
     @SerializedName("mensaje")
     @Expose
