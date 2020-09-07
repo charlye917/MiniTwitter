@@ -1,7 +1,10 @@
 package com.charlye934.minitwitter.home.presenter.view
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +14,21 @@ import com.charlye934.minitwitter.R
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.MyApp
 import com.charlye934.minitwitter.common.SharedPreferencesManager
+import com.charlye934.minitwitter.home.HomeActivity
 import com.charlye934.minitwitter.home.data.model.Tweet
+import com.charlye934.minitwitter.home.presenter.listener.ListenerHome
+import com.charlye934.minitwitter.home.presenter.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.item_tweet.view.*
 
 class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
-    private val listTweet =  ArrayList<Tweet>()
+    private lateinit var listener: ListenerHome
+    private var listTweet =  ArrayList<Tweet>()
     private val username = SharedPreferencesManager().getSomeStringValue(Constants.PREF_USERNAME)
     private val context = MyApp.getContext()
 
-    fun updateData(newTweet:List<Tweet>){
+    fun updateData(newTweet:List<Tweet>, listenerHome: ListenerHome){
+        listener = listenerHome
         listTweet.clear()
         listTweet.addAll(newTweet)
         notifyDataSetChanged()
@@ -31,6 +39,7 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         return TwitterViewHolder(item)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TwitterViewHolder, position: Int) {
         val item = listTweet[position]
 
@@ -40,7 +49,7 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
 
         val photo = item.user.photoUrl
         if(!photo.equals("")){
-            Glide.with(context!!)
+            Glide.with(context)
                 .load(Constants.PHOTO_URL + photo)
                 .into(holder.imgPhoto)
         }
@@ -51,9 +60,22 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         holder.tvLikeCount.setTextColor(context.resources.getColor(android.R.color.black))
         holder.tvLikeCount.setTypeface(null, Typeface.NORMAL)
 
+        holder.imgShowMenu.visibility = View.GONE
+        if(item.user.username.equals(username))
+            holder.imgShowMenu.visibility = View.VISIBLE
+
+        holder.imgShowMenu.setOnClickListener {
+            listener.deleteTweet(item.id)
+        }
+
+        holder.imgLike.setOnClickListener {
+            listener.likeTweet(item.id)
+        }
+
         item.likes.forEach{
-            if(it.username!!.equals(username)){
-                Glide.with(context!!)
+            if(it.username!! == username){
+                Log.d("tweetLike",it.toString())
+                Glide.with(context)
                     .load(R.drawable.ic_like_pink)
                     .into(holder.imgLike)
                 holder.tvLikeCount.setTextColor(context.resources.getColor(R.color.pink))
@@ -70,6 +92,6 @@ class TweetAdapter : RecyclerView.Adapter<TweetAdapter.TwitterViewHolder>(){
         val tvUsername = item.tvUsernameItem
         val tvMessage = item.tvMessageItem
         val tvLikeCount = item.tvCountLikes
+        val imgShowMenu = item.imgShowMenuItemTweet
     }
-
 }

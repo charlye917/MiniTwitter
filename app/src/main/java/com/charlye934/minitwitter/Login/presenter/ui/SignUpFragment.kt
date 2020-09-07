@@ -57,14 +57,6 @@ class SignUpFragment : Fragment() {
             .observe(viewLifecycleOwner){
                 if(it!= null){
                     Toast.makeText(context, "Datos guaradados correctamente ", Toast.LENGTH_SHORT).show()
-                    viewModel.saveDataSharePreferences(
-                        it.token,
-                        it.username,
-                        it.email,
-                        it.photoUrl,
-                        it.created,
-                        it.active
-                    )
                     loginListener.goToHomeActivity()
                 }else{
                     Toast.makeText(context, "Algo ha ido mal, revise los datos de registro ", Toast.LENGTH_SHORT).show()

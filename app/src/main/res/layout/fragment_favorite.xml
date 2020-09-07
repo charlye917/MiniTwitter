@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/refreshTweeList"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshFavoritesList"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationTweetList"
+            android:id="@+id/lottieAnimationFavoritos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -25,13 +25,16 @@
             android:background="@color/colorPrimaryDark"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerlistFragmentTweet"
+            android:id="@+id/recyclerlistFragmentFavorites"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".home.presenter.view.TweetListFragment"
             android:layout_margin="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_tweet"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:context=".home.presenter.view.TweetListFragment"
+            tools:listitem="@layout/item_tweet" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,12 +1,10 @@
 package com.charlye934.minitwitter.common
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-
 
 class SharedPreferencesManager {
 
@@ -44,6 +42,7 @@ class SharedPreferencesManager {
     fun getSomeStringValue(dataLabel: String): String?{
         return sharedPreferences.getString(dataLabel,null)
     }
+
     fun getSomeBooleanVlaue(dataLabel: String): Boolean?{
         return sharedPreferences.getBoolean(dataLabel, false)
     }

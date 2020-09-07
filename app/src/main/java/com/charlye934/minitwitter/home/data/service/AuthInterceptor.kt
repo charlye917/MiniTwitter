@@ -1,5 +1,6 @@
 package com.charlye934.minitwitter.home.data.service
 
+import android.util.Log
 import com.charlye934.minitwitter.common.Constants
 import com.charlye934.minitwitter.common.SharedPreferencesManager
 import okhttp3.Interceptor

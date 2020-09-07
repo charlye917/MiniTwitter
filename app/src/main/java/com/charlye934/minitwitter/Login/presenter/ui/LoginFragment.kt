@@ -1,5 +1,7 @@
 package com.charlye934.minitwitter.Login.presenter.ui
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,6 +17,7 @@ import com.charlye934.minitwitter.Login.presenter.listener.LoginListener
 import com.charlye934.minitwitter.Login.presenter.viewmodel.LoginViewModel
 import com.charlye934.minitwitter.R
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.view.*
 
 
 class LoginFragment : Fragment(){
@@ -37,7 +40,14 @@ class LoginFragment : Fragment(){
         txtGoSignUp.setOnClickListener{loginListener.goToSignUp()}
     }
 
+    @SuppressLint("ResourceType")
     private fun sendDataLogin(){
+        val layoutBuilder = LayoutInflater.from(context).inflate(R.layout.lottie_load, null)
+        val builder = AlertDialog.Builder(context).setView(layoutBuilder)
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
         val email = etMailLogin.text.toString()
         val pass = etPassLogin.text.toString()
 
@@ -53,14 +63,6 @@ class LoginFragment : Fragment(){
         viewmodel.sendDataLogin(RequestLogin(email, password))
             .observe(viewLifecycleOwner){
                 if(it != null){
-                    viewmodel.saveDataSharePreferences(
-                        it.token,
-                        it.username,
-                        it.email,
-                        it.photoUrl,
-                        it.created,
-                        it.active
-                    )
                     loginListener.goToHomeActivity()
                 }else{
                     Toast.makeText(context, "Algo fue mal revise sus datos", Toast.LENGTH_SHORT).show()

@@ -1,10 +1,8 @@
 package com.charlye934.minitwitter.home.data.service
 
-import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
-import com.charlye934.minitwitter.home.data.model.Tweet
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import com.charlye934.minitwitter.home.data.model.*
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 interface AuthTwitterService {
     @GET("tweets/all")
@@ -12,4 +10,21 @@ interface AuthTwitterService {
 
     @POST("tweets/create")
     suspend fun createTweet(@Body requestCreateTweet: RequestCreateTweet): Tweet
+
+    @POST("tweets/like/{idTweet}")
+    suspend fun likeTweet(@Path("idTweet") idTweet: Int): Tweet
+
+    @DELETE("tweets/{idTweet}")
+    suspend fun deleteTweet(@Path("idTweet") idTweet: Int): TweetDelete
+
+    //USER PROFILE
+    @GET("users/profile")
+    suspend fun getProfile(): ResponseUserProfile
+
+    @PUT("users/profile")
+    suspend fun updateProfile(@Body requestProfile: RequestUserProfile): ResponseUserProfile
+
+    @Multipart
+    @POST("/users/uploadprofilephoto")
+    suspend fun uploadProfilePhoto(@Part("file\"; filename=\"photo.jpeg\" ") file:RequestBody): ResponseUploadPhoto
 }

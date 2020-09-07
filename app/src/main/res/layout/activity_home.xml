@@ -67,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:layout_gravity="bottom|end"
             android:backgroundTint="@color/colorAzul"
             android:src="@drawable/ic_write_tweet_white"
             app:layout_constraintBottom_toTopOf="@+id/navigationHome"
@@ -74,10 +75,11 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationHome"
+            app:labelVisibilityMode="auto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:labelVisibilityMode="unlabeled"
             android:background="?android:attr/windowBackground"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

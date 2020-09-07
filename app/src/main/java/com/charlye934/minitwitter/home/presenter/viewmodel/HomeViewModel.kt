@@ -3,21 +3,73 @@ package com.charlye934.minitwitter.home.presenter.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.charlye934.minitwitter.home.data.model.RequestCreateTweet
+import com.charlye934.minitwitter.home.data.model.RequestUserProfile
+import com.charlye934.minitwitter.home.data.model.ResponseUserProfile
 import com.charlye934.minitwitter.home.data.model.Tweet
-import com.charlye934.minitwitter.home.domain.HomeInteractor
-import com.charlye934.minitwitter.home.domain.HomeInteractorImp
+import com.charlye934.minitwitter.home.domain.ProfileInteractor
+import com.charlye934.minitwitter.home.domain.ProfileInteractorImp
+import com.charlye934.minitwitter.home.domain.TweetInteractor
+import com.charlye934.minitwitter.home.domain.TweetInteractorImp
+import kotlinx.coroutines.*
 
 class HomeViewModel : ViewModel() {
-    private val homeInteractor:HomeInteractor = HomeInteractorImp()
 
-    fun getTweets() = liveData {
-        val dataTweet = homeInteractor.getTwitts()
+    fun getAllTweets(): MutableLiveData<List<Tweet>?> {
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = tweetInteractor.getAllTweets()
+            allTweets.postValue(response)
+        }
+        return allTweets
+    }
+
+    fun getTweets(): MutableLiveData<List<Tweet>> = tweetInteractor.getTweet()
+
+
+    fun insertTweet(mensaje: String) = liveData{
+        val dataTweet = tweetInteractor.createTweet(mensaje)
         emit(dataTweet)
     }
 
-    fun postTweet(requestCreateTweet: RequestCreateTweet) = liveData{
-        val dataTweet = homeInteractor.postTweet(requestCreateTweet)
-        emit(dataTweet)
+    fun likeTweet(idTweet: Int) = liveData{
+        val response = tweetInteractor.likeTweet(idTweet)
+        getFavTweet()
+        emit(response)
+    }
+
+    fun getFavTweet(): MutableLiveData<List<Tweet>?> {
+        CoroutineScope(Dispatchers.Main).launch{
+            val response = tweetInteractor.getFavsTweets()
+            favTweet.postValue(response)
+        }
+        return favTweet
+    }
+
+    fun deleteTweet(idTweet: Int) = liveData {
+        val response = tweetInteractor.deleteTweet(idTweet)
+        getFavTweet()
+        emit(response)
+    }
+
+    fun changeProfile() = liveData {
+            userProfile.value = profileInteractor.getProfile()
+            emit(userProfile.value)
+    }
+
+    fun updateProfile(requestUserProfile: RequestUserProfile) = liveData {
+        userProfile.value = profileInteractor.updateProfile(requestUserProfile)
+        emit(userProfile.value)
+    }
+
+    fun uploadPhoto(photo: String) = liveData{
+        val response = profileInteractor.uploadProfilePhoto(photo)
+        emit(response)
+    }
+
+    companion object{
+        private val tweetInteractor:TweetInteractor = TweetInteractorImp()
+        private val profileInteractor:ProfileInteractor = ProfileInteractorImp()
+        private var allTweets:MutableLiveData<List<Tweet>?> = MutableLiveData()
+        private var favTweet:MutableLiveData<List<Tweet>?> = MutableLiveData()
+        private var userProfile:MutableLiveData<ResponseUserProfile?> = MutableLiveData()
     }
 }
