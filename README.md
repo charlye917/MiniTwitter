@@ -5,5 +5,6 @@
 En este proyecto se elabora una red social similar a twitter, empleado una arquitectura limpia MVVM con coroutinas y live data
 
 
-### Ejemplo de la app
-![check](MiniTwitter.gif =100x400)
+### Ejemplo de la app (GIF)
+![check](MiniTwitter.gif)
+
