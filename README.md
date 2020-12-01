@@ -6,5 +6,5 @@ En este proyecto se elabora una red social similar a twitter, empleado una arqui
 
 
 ### Ejemplo de la app (GIF)
-<img src="MiniTwitter.gif" alt="drawing" width="500"/>
+<img src="MiniTwitter.gif" alt="drawing" width="400"/>
 
