@@ -24,6 +24,7 @@ class LoginFragment : Fragment(){
 
     private lateinit var loginListener: LoginListener
     private val viewmodel: LoginViewModel by activityViewModels()
+    private lateinit var alertDialog: AlertDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -44,7 +45,7 @@ class LoginFragment : Fragment(){
     private fun sendDataLogin(){
         val layoutBuilder = LayoutInflater.from(context).inflate(R.layout.lottie_load, null)
         val builder = AlertDialog.Builder(context).setView(layoutBuilder)
-        val alertDialog = builder.create()
+        alertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
 
@@ -65,6 +66,7 @@ class LoginFragment : Fragment(){
                 if(it != null){
                     loginListener.goToHomeActivity()
                 }else{
+                    alertDialog.hide()
                     Toast.makeText(context, "Algo fue mal revise sus datos", Toast.LENGTH_SHORT).show()
                 }
             }

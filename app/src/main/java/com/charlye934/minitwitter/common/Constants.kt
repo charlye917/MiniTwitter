@@ -1,7 +1,7 @@
 package com.charlye934.minitwitter.common
 
 object Constants{
-    const val BASE_URL = "https://www.minitwitter.com:3001/apiv1/"
+    const val BASE_URL = "https://www.minitwitter.com:3001/api/"
     const val PHOTO_URL = "https://www.minitwitter.com/apiv1/uploads/photos/"
 
     //STARACTITY FOR RESULT
